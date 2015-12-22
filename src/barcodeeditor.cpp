@@ -8,6 +8,7 @@
 
 #include "barcodeeditor.hpp"
 #include "kmer_freq.h"
+#include "sequenceencoder.hpp"
 #include "typdefine.h"
 
 #include <memory>
@@ -44,11 +45,13 @@ namespace barcodeSpace {
         }
         // Extract the seed part from each barcode.
         // and Update the connections between edited barcode with the original barcode
+        SequenceEncoder encoder;
         for (size_t index = 0; index < barcode_list.size(); ++index) {
             size_t barcode_length = barcode_list[index].first.length();
 
-            kmers_freq temp = extractSeed(seed_selectors[barcode_length]->getSeedsPositions(), barcode_list[index]);
-
+            string edited_barcode = extractSeed(seed_selectors[barcode_length]->getSeedsPositions(), barcode_list[index].first);
+            //kmers_freq temp = extractSeed(seed_selectors[barcode_length]->getSeedsPositions(), //barcode_list[index]);
+            kmers_freq temp(encoder.encode(edited_barcode), barcode_list[index].second);
             if (_barcode_tables[barcode_2_seed_length[barcode_length]].find(temp._key) ==
                 _barcode_tables[barcode_2_seed_length[barcode_length]].end()) {
                 _barcode_tables[barcode_2_seed_length[barcode_length]][temp._key] = temp._freq;
@@ -57,24 +60,26 @@ namespace barcodeSpace {
 
             } else {
                 _barcode_tables[barcode_2_seed_length[barcode_length]][temp._key] += temp._freq;
-                _barcode_2_sequence[barcode_2_seed_length[barcode_length]][temp._key].push_back(RawDataInfo(barcode_list[index].first, index));
+                _barcode_2_sequence[barcode_2_seed_length[barcode_length]][temp._key].push_back(RawDataInfo(edited_barcode, index));
             }
             
             
         }
     }
     
-    kmers_freq BarcodeEditor::extractSeed(const std::vector<std::pair<int, int>>& seed_span,
-                                          const std::pair<string, freq>& barcode) {
-        kmer result;
+    string BarcodeEditor::extractSeed(const std::vector<std::pair<int, int>>& seed_span,
+                                          const std::string& barcode) {
+        string result;
         for (const auto& span : seed_span) {
             for (int i = 0; i < span.second; ++i) {
-                result |= _dict->asc2dna(barcode.first[span.first + i]);
-                result <<= 2;
+                result += barcode[span.first + i];
+                //result |= _dict->asc2dna(barcode.first[span.first + i]);
+                //result <<= 2;
             }
         }
-        result >>= 2;
-        return kmers_freq(result, barcode.second);
+        return result;
+        //result >>= 2;
+        //return kmers_freq(result, barcode.second);
     }
 
 }   // namespace barcodeSpace

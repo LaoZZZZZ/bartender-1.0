@@ -44,7 +44,7 @@ private:
     }
     // Given a seed poitions list and a barcode.
     // Return a kmers_freq instance that contains the edited barcode and its frequency.
-    kmers_freq extractSeed(const std::vector<std::pair<int, int>>&, const std::pair<std::string, freq>&);
+    std::string extractSeed(const std::vector<std::pair<int, int>>&, const std::string&);
     size_t  _seed_length;
     std::vector<BarcodeSequenceTable> _barcode_2_sequence;
     // Each position refer to those edited seeds that have the length equal to the position
