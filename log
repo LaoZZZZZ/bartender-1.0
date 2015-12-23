@@ -1,0 +1,124 @@
+Loading the input from the file
+Finished reading the input data
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+error
+
+
+*********************************************************************
+Clustering those barcodes which have 9 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  8
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 0 clusters with length 9 and size no less than 4
+#####################################################################
+
+
+*********************************************************************
+Clustering those barcodes which have 10 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  17
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 0 clusters with length 10 and size no less than 4
+#####################################################################
+
+
+*********************************************************************
+Clustering those barcodes which have 11 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  5
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 0 clusters with length 11 and size no less than 4
+#####################################################################
+
+
+*********************************************************************
+Clustering those barcodes which have 13 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  7
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 0 clusters with length 13 and size no less than 4
+#####################################################################
+
+
+*********************************************************************
+Clustering those barcodes which have 14 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  10
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 0 clusters with length 14 and size no less than 4
+#####################################################################
+
+
+*********************************************************************
+Clustering those barcodes which have 15 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  9115
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 25 clusters with length 15 and size no less than 4
+#####################################################################
+
+
+*********************************************************************
+Clustering those barcodes which have 16 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  228
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 2 clusters with length 16 and size no less than 4
+#####################################################################
+
+
+*********************************************************************
+Clustering those barcodes which have 19 random positions
+transforming the barcodes into clusters
+Initial number of unique barcodes(spacers are removed):  4
+Clustering iteration 1
+Clustering took  00:00:00
+There are totally 0 clusters with length 19 and size no less than 4
+#####################################################################
+
+
+***************************(overall)*********************************
+Could not collect enough barcodes from high quality clusters(max entropy < 0.19, cluster size >= 20 ) to estimate the error rate!
+The estimated error rate might not be accurate and reliable!
+The estimated error rate is 0.000462963
+starting to dump clusters to file with prefix example/barcode_1_result
+00:00:00
