@@ -31,10 +31,13 @@ public:
 
       */
     inline void seq_2_bitwise(const std::string& seq, kmer& hashcode,const size_t& kmersLen){
-        if(seq.empty() || (seq.length() < kmersLen)) {
-            std::cerr << "error" << std::endl;
+        if(seq.empty()) {
+            std::cerr << "The sequence is empty when encoding it" << std::endl;
             hashcode = ERRORFLAG;
-        }
+        } else if (seq.length() < kmersLen) {
+	   std::cerr << "The sequence length is less than the specified kmerslen" << std::endl;
+           hashcode = ERRORFLAG;
+	}
         else{
             hashcode = 0;
             for(UINT8 i = 0; i < kmersLen; i++){

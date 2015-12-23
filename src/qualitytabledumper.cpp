@@ -28,7 +28,7 @@ namespace barcodeSpace {
     void QualityTableDumper::WritePWM(int cluster_id, const std::vector<std::array<int, 4>>& pwm) {
 
         for (int bp = 0; bp < 4; ++bp) {
-            this->_out << cluster_id << std::string(1, _dict->dna2asc(bp));
+            this->_out << to_string(cluster_id) << std::string(1, _dict->dna2asc(bp));
             size_t pos = 0;
             while (pos < pwm.size()) {
                 this->_out << to_string(pwm[pos++][bp]);

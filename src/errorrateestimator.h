@@ -22,7 +22,7 @@ public:
     ErrorRateEstimator(double entropy_threshold, size_t cluster_size, size_t maximum_barcodes);
 
     // Estimates the error rate given a list of clusters.
-    void Estimate(const std::list<std::shared_ptr<cluster>>&);
+    void Estimate(const std::list<std::shared_ptr<cluster>>&, bool silence);
 
     // Gets the error rate.
     double ErrorRate()const{return _error_rate;}

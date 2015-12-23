@@ -22,7 +22,7 @@ namespace barcodeSpace {
             generateHeader(line.time_points.size());
             writeHeader();
         }
-//        this->_out << to_string(line.cluster_id) << line.center << to_string(line.cluster_score);
+        this->_out << to_string(line.cluster_id) << line.center << to_string(line.cluster_score);
 
         
         for (const auto& tsize : line.time_points) {

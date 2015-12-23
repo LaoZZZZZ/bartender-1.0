@@ -36,6 +36,8 @@ public:
     void editBarcodes(const std::vector<std::pair<std::string, freq>>& barcode_list);
     const std::vector<barcodeFreqTable>& barcodeTable() const {return _barcode_tables;}
     const std::vector<BarcodeSequenceTable>& barcode2Sequence() const {return _barcode_2_sequence;}
+    ~BarcodeEditor() {
+    }
 private:
     void reset(size_t seed_length) {
         _seed_length = seed_length;

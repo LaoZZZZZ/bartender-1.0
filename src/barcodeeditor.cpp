@@ -9,9 +9,11 @@
 #include "barcodeeditor.hpp"
 #include "kmer_freq.h"
 #include "sequenceencoder.hpp"
+#include "sequenceencoder.hpp"
 #include "typdefine.h"
 
 #include <memory>
+#include <stdlib.h>
 #include <string>
 #include <vector>
 #include <unordered_map>
@@ -41,29 +43,35 @@ namespace barcodeSpace {
             for (const auto& seed_span : seed_position) {
                 seed_length_temp += seed_span.second;
             }
+	    if (seed_length_temp > _seed_length) {
+	   	std::cerr << "The barcode length is larger than " << _seed_length << endl;
+		std::cerr << "The current version can not handle such long barcode " << endl;
+		exit(0); 
+            }
             barcode_2_seed_length[seed_selector.first] = seed_length_temp;
         }
         // Extract the seed part from each barcode.
         // and Update the connections between edited barcode with the original barcode
         SequenceEncoder encoder;
         for (size_t index = 0; index < barcode_list.size(); ++index) {
+	    if (barcode_list[index].first.empty()) 
+		continue;
             size_t barcode_length = barcode_list[index].first.length();
 
             string edited_barcode = extractSeed(seed_selectors[barcode_length]->getSeedsPositions(), barcode_list[index].first);
+	    if (edited_barcode.empty())
+		continue;
             //kmers_freq temp = extractSeed(seed_selectors[barcode_length]->getSeedsPositions(), //barcode_list[index]);
             kmers_freq temp(encoder.encode(edited_barcode), barcode_list[index].second);
             if (_barcode_tables[barcode_2_seed_length[barcode_length]].find(temp._key) ==
                 _barcode_tables[barcode_2_seed_length[barcode_length]].end()) {
-                _barcode_tables[barcode_2_seed_length[barcode_length]][temp._key] = temp._freq;
-                _barcode_2_sequence[barcode_2_seed_length[barcode_length]][temp._key]=
-                {RawDataInfo(barcode_list[index].first, index)};
-
+                _barcode_tables[barcode_2_seed_length[barcode_length]].insert({temp._key, temp._freq});
+                _barcode_2_sequence[barcode_2_seed_length[barcode_length]].insert({temp._key,{RawDataInfo(edited_barcode, index + 1)}});
+                
             } else {
                 _barcode_tables[barcode_2_seed_length[barcode_length]][temp._key] += temp._freq;
-                _barcode_2_sequence[barcode_2_seed_length[barcode_length]][temp._key].push_back(RawDataInfo(edited_barcode, index));
+                _barcode_2_sequence[barcode_2_seed_length[barcode_length]][temp._key].push_back(RawDataInfo(edited_barcode, index + 1));
             }
-            
-            
         }
     }
     
@@ -71,15 +79,9 @@ namespace barcodeSpace {
                                           const std::string& barcode) {
         string result;
         for (const auto& span : seed_span) {
-            for (int i = 0; i < span.second; ++i) {
-                result += barcode[span.first + i];
-                //result |= _dict->asc2dna(barcode.first[span.first + i]);
-                //result <<= 2;
-            }
+		result += barcode.substr(span.first, span.second);
         }
         return result;
-        //result >>= 2;
-        //return kmers_freq(result, barcode.second);
     }
 
 }   // namespace barcodeSpace
