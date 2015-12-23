@@ -1,5 +1,5 @@
 CC	= g++
-CFLAGS	= -std=c++11 -fPIC -w -O3
+CFLAGS	= -fPIC -w -O3 -std=c++11  
 LDFLAGS	= 
 
 SINGLE	= bartender_single

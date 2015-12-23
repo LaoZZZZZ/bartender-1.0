@@ -42,7 +42,7 @@ void drive(std::string barcodefile,  // original read file
            double entropy_threshold, // Entopy value for considering as mixture position
            double p_value,  // p_value used to check whether the mixture frequency is high enough to be a center
            size_t maximum_centers, // The maximum centers for each cluster
-           double zvalue = 10.0f,
+           double zvalue = 10.0,
            bool pool = false,
            double entropy_threshold_for_error = 0.19, // the majority bp accounts at least 95%.
            // The least size of cluster that will be considered as candidate when estimating the sequencing error
@@ -95,16 +95,16 @@ void drive(std::string barcodefile,  // original read file
                                    maximum_centers,
                                    p_value,
                                    0.1)); // currently the error_rate is set to 0.1
-    for (size_t blen = 0; blen < barcode_tables.size(); ++blen) {
+    for (size_t blen = 1; blen < barcode_tables.size(); ++blen) {
         if (barcode_tables[blen].empty())
             continue;
-        cout << "Clustering those barcode whose has " << blen << " random positions" << endl;
+        cout << "Clustering those barcodes which have " << blen << " random positions" << endl;
 
         size_t start = 0;
         size_t klen = blen*2;
         if(seedlen*2 > klen)
             seedlen = 1;
-        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen,freq_cutoff,CLUSTERTYPE::DICTATOR,zvalue, pool);
+        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen,freq_cutoff,zvalue, pool);
         std::shared_ptr<clusterPipline> pPipe(pipe);
         pPipe->clusterDrive(barcode_tables[blen]);
 
@@ -161,7 +161,7 @@ int main(int argc,char* argv[])
     if (argc >= 8) {
         maximum_centers = atoi(argv[7]);
     }
-    double zvalue = 10.0f;
+    double zvalue = 10.0;
     if (argc >= 9) {
         zvalue = atof(argv[8]);
     }

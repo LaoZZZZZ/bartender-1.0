@@ -23,8 +23,8 @@ public:
       * cutoff: frequency that differential "true" barcode and barcode with "error".
       * stopThres: This threshold
     */
-    clusterPipline(size_t pos,size_t span,size_t klen,size_t cutoff = 10,CLUSTERTYPE ctype=DICTATOR,
-                   size_t dist_thres = 2, double zvalue = 3.08, bool pool = true, double stopThres = 0.01);
+    clusterPipline(size_t pos,size_t span,size_t klen,size_t cutoff = 10,
+                   double zvalue = 3.08, bool pool = true, double stopThres = 0.01);
     bool clusterDrive(const barcodeFreqTable&);
     bool clusterDrive(const std::list<std::shared_ptr<cluster>>&);
     const std::list<std::shared_ptr<cluster>>& clusters(){return this->_clusters;}

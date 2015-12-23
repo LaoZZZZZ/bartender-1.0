@@ -11,18 +11,18 @@
 namespace barcodeSpace {
 
 clusterPipline::clusterPipline(size_t pos,size_t span,size_t klen,
-                               size_t cutoff,CLUSTERTYPE ctype,
-                               size_t dist_thres,
+                               size_t cutoff,
                                double zvalue,
                                bool pool,
                                double stopThres):
                                 _span(span),_pos(pos),_mask(0),
                                 _offset(0),_klen(klen),
-                                _cutoff(cutoff),_ctype(ctype),
-                                _dist_threshold(dist_thres),
-                                _zvalue(zvalue), _pool(pool), _stopThres(stopThres)
+                                _cutoff(cutoff),
+                                _zvalue(zvalue), _pool(pool),
+				 _stopThres(stopThres)
 {
     assert(this->_stopThres < 1);
+    _ctype = CLUSTERTYPE::DICTATOR;
     this->init();
 }
 void clusterPipline::init(){
@@ -119,7 +119,10 @@ bool clusterPipline::clusterDrive(const barcodeFreqTable& barcodetable){
     this->transform(barcodetable);
 
     std::cout << "Initial number of unique barcodes(spacers are removed):  " << _clusters.size() <<std::endl;
-    //std::cout << "The distance threshold is " << _dist_threshold << std::endl;
+    std::cout << "The distance threshold is " << _dist_threshold << std::endl;
+    std::cout << "The cluster split threshold is  " << _splitThreshold << std::endl;
+    std::cout << "The test z-value is " << _zvalue << std::endl;
+    std::cout << "The test choice is " << (_pool ? "pooled" : "unpooled") << std::endl;
     // 2. First try to assign low frequency barcode to high frequency barcode
     // only consider those barcode distance is equal to 1.
     size_t sz(this->_clusters.size());
