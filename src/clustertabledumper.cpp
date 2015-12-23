@@ -7,9 +7,14 @@
 //
 
 #include "clustertabledumper.hpp"
+#include "minicsv.h"
 #include "split_util.h"
 
 #include <algorithm>
+#include <string>
+
+using namespace std;
+using namespace csv;
 namespace barcodeSpace {
     
     void ClusterTableDumper::Write(const ClusterTableElement& line) {
@@ -17,10 +22,11 @@ namespace barcodeSpace {
             generateHeader(line.time_points.size());
             writeHeader();
         }
-        this->_out << line.cluster_id << line.center << line.cluster_score;
+//        this->_out << to_string(line.cluster_id) << line.center << to_string(line.cluster_score);
+
         
         for (const auto& tsize : line.time_points) {
-            this->_out << tsize;
+            this->_out << to_string(tsize);
         }
         this->_out << '\n';
     }
@@ -37,6 +43,12 @@ namespace barcodeSpace {
             buffer.str("");
         }
         
+    }
+    void ClusterTableDumper::writeHeader() {
+        for (const auto& h : _header) {
+            this->_out << h;
+        }
+        this->_out << '\n';
     }
     
     double ClusterTableDumper::maxEntropy(const std::vector<std::array<int, 4>>& frequency_table) {

@@ -4,11 +4,14 @@
 #include "cluster.h"
 #include "typdefine.h"
 
+#include <stdlib.h>
 #include <string>
 #include <vector>
 #include <memory>
+#include <memory.h>
 #include <list>
 #include <fstream>
+
 namespace barcodeSpace{
 /**
   * CSV file format dumper.
@@ -47,7 +50,7 @@ private:
     void init(){
         if(!this->_out.is_open())
             throw std::runtime_error(std::string("Could not open file ") + this->_filename);
-        memset(buffer_, 0, BUF_SZ);
+        memset(buffer_, 0, BUF_SZ * sizeof(char));
         _out.rdbuf()->pubsetbuf(buffer_, BUF_SZ);
         
     }
@@ -75,7 +78,7 @@ protected:
         }
     }
     
-    std::fstream                    _out;
+    std::ofstream                    _out;
     std::vector<std::string>        _columns;
 
 };

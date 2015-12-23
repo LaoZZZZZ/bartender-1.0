@@ -35,12 +35,7 @@ namespace barcodeSpace {
         }
     private:
         void generateHeader();
-        void writeHeader() {
-            for (const auto& h : _header) {
-                this->_out << h;
-            }
-            this->_out << '\n';
-        }
+        void writeHeader();
         csv::ofstream _out;
         std::vector<std::string>    _header;
         std::shared_ptr<kmersDictionary> _dict;
