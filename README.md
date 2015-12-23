@@ -21,7 +21,7 @@ Bartender is a c++ tool that is designed to process random barcode data. It curr
 
 The barcode in both input formats should be a stretch of DNA sequence(i.e.ATCTACTAC). It could contain some preceeding sequence or succeedings. 
 
-#Output:
+# Output:
 Bartender will output three files. 
 
 ## a. Cluster file.
