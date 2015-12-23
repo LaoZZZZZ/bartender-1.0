@@ -307,7 +307,6 @@ namespace csv
 	};
 
 
-} // ns csv
 
 template<typename T>
 inline csv::ifstream& operator >> (csv::ifstream& istm, T& val)
@@ -347,7 +346,6 @@ inline csv::ofstream& operator << (csv::ofstream& ostm, const T& val)
 
 	return ostm;
 }
-
 template<typename T>
 inline csv::ofstream& operator << (csv::ofstream& ostm, const T* val)
 {
@@ -399,15 +397,19 @@ inline csv::ofstream& operator << (csv::ofstream& ostm, const char& val)
 	return ostm;
 }
 template<>
-inline csv::ofstream& operator << (csv::ofstream& ostm, const char* val)
+inline csv::ofstream& operator << (csv::ofstream& ostm, const int& val)
 {
-	const std::string temp = val;
+	std::ostringstream os_temp;
 
-	ostm << temp;
+	os_temp << val;
+
+	ostm.escape_and_output(os_temp.str());
+	
 
 	return ostm;
 }
 
+} // ns csv
 namespace csv
 {
 

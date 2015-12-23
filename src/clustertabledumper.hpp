@@ -21,6 +21,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+
 namespace barcodeSpace {
     
     struct ClusterTableElement {
@@ -55,12 +56,7 @@ namespace barcodeSpace {
         void Write(const ClusterTableElement& line);
         // Generates the header correspondingly upon the first cluster.
         void generateHeader(size_t num_time_points);
-        void writeHeader() {
-            for (const auto& h : _header) {
-                this->_out << h;
-            }
-            this->_out << '\n';
-        }
+        void writeHeader();
         std::string decodeKmer(const kmer& k, size_t klen) {
             if (kmer_decoders.find(klen) == kmer_decoders.end()) {
                 kmer_decoders[klen].reset(new KmerDecoder(klen));
@@ -69,6 +65,8 @@ namespace barcodeSpace {
         }
         double maxEntropy(const std::vector<std::array<int, 4>>& frequency_table);
         std::vector<std::string>    _header;
+
+
         csv::ofstream _out;
         std::unordered_map<size_t, std::shared_ptr<KmerDecoder>> kmer_decoders;
     };

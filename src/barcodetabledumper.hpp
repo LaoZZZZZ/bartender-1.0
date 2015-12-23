@@ -32,12 +32,8 @@ namespace barcodeSpace {
             _header.push_back("Barcode.Sequence");
             _header.push_back("Cluster.ID");
         }
-        void writeHeader() {
-            for (const auto& h : _header) {
-                this->_out << h;
-            }
-            this->_out << '\n';
-        }
+        void writeHeader();
+
         csv::ofstream _out;
         std::vector<std::string> _header;
     };

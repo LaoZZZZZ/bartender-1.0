@@ -7,8 +7,13 @@
 //
 
 #include "qualitytabledumper.hpp"
+#include "minicsv.h"
 
 #include <sstream>
+#include <string>
+
+using namespace std;
+using namespace csv;
 namespace barcodeSpace {
     void QualityTableDumper::generateHeader() {
         _header.push_back("Cluster.ID");
@@ -26,13 +31,20 @@ namespace barcodeSpace {
             this->_out << cluster_id << std::string(1, _dict->dna2asc(bp));
             size_t pos = 0;
             while (pos < pwm.size()) {
-                this->_out << pwm[pos++][bp];
+                this->_out << to_string(pwm[pos++][bp]);
             }
             while (pos < _max_barcode_length) {
-                this->_out << 0U;
+                this->_out << "0";
                 ++pos;
             }
             this->_out << '\n';
         }
     }
+    void QualityTableDumper::writeHeader() {
+        for (const auto& h : _header) {
+            this->_out << h;
+        }
+        this->_out << '\n';
+    }
+ 
 }
