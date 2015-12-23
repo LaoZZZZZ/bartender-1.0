@@ -23,6 +23,7 @@ The barcode in both input formats should be a stretch of DNA sequence(i.e.ATCTAC
 
 Output:
 Bartender will output three files. 
+
 a. Cluster file. This file contains general information of each cluster. It at least has four columns.
   1. Cluster.ID: the unique ID of the cluster
   2. Center: the center of this cluster. Typically the center will be viewed as the true barcode in the downstream analysis.
