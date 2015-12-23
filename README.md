@@ -10,6 +10,7 @@ Bartender is a c++ tool that is designed to process random barcode data. It curr
  Bartender requires that the gcc compler should be at least be gcc4-7 version. Installation is simple.
  1. make all
  2. sudo make install
+
  To uninstall:
  1. make clean;
  2. sudo make uninstall
