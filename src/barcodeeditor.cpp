@@ -71,15 +71,9 @@ namespace barcodeSpace {
                                           const std::string& barcode) {
         string result;
         for (const auto& span : seed_span) {
-            for (int i = 0; i < span.second; ++i) {
-                result += barcode[span.first + i];
-                //result |= _dict->asc2dna(barcode.first[span.first + i]);
-                //result <<= 2;
-            }
+	    result += barcode.substr(span.first, span.second);
         }
         return result;
-        //result >>= 2;
-        //return kmers_freq(result, barcode.second);
     }
 
 }   // namespace barcodeSpace

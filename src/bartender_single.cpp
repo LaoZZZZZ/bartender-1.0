@@ -142,8 +142,8 @@ int main(int argc,char* argv[])
     
     if(argc >= 4)
         freq_cutoff = atoi(argv[3]);
+
     size_t seedlen = 5;
-    
     if(argc >= 5)
         seedlen = atoi(argv[4]);
     
