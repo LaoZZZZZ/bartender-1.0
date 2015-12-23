@@ -27,8 +27,8 @@ install:
 	$(CP) $(WRAPPER) $(INSTALLDIR)
 	$(CP) $(WRAPPER).py $(INSTALLDIR)
 uninstall:
-	$(RM) -r /usr/bin/$(PROG)
-	$(RM) -r /usr/bin/$(WRAPPER)
+	$(RM) -r $(INSTALLDIR)/$(PROG)
+	$(RM) -r $(INSTALLDIR)/$(WRAPPER)
 clean:
 	$(RM) $(BARTENDERSINGLEOBJECTS)
 	$(RM) $(SINGLE)
