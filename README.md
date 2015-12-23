@@ -11,10 +11,6 @@ Bartender is a c++ tool that is designed to process random barcode data. It curr
  1. make all
  2. sudo make install
 
-# Uninstall
- 1. make clean;
- 2. sudo make uninstall
-
 # Input:
  Currently it accepts two different input formats. 
   1. The raw barcode text file. The file should only have one column, which is the raw barcode. 
