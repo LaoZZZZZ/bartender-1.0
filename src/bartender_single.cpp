@@ -42,7 +42,7 @@ void drive(std::string barcodefile,  // original read file
            double entropy_threshold, // Entopy value for considering as mixture position
            double p_value,  // p_value used to check whether the mixture frequency is high enough to be a center
            size_t maximum_centers, // The maximum centers for each cluster
-           double zvalue = 8.0f,
+           double zvalue = 10.0f,
            bool pool = false,
            double entropy_threshold_for_error = 0.19, // the majority bp accounts at least 95%.
            // The least size of cluster that will be considered as candidate when estimating the sequencing error
@@ -161,7 +161,7 @@ int main(int argc,char* argv[])
     if (argc >= 8) {
         maximum_centers = atoi(argv[7]);
     }
-    double zvalue = 8.0f;
+    double zvalue = 10.0f;
     if (argc >= 9) {
         zvalue = atof(argv[8]);
     }
