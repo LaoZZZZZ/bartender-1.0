@@ -21,7 +21,7 @@ The default install directory is /usr/local/bin and is hard coded in the make fi
   1. The raw barcode text file. The file should only have one column, which is the raw barcode. 
   2. The raw count table csv file. The file has two columns. The first column is the barcode sequence, the second column is the frequency of the corresponding barcode. This format is used for the case that the PCR effect has been removed.
 
-The barcode in both input formats should be a stretch of DNA sequence(i.e.ATCTACTAC). It could contain a short preceeding sequence or succeedings.
+The barcode in both input formats should be a stretch of DNA sequence(i.e.ATCTACTAC). It could contain a common preceeding or succeeding sequence. 
 
 # Usage
 
