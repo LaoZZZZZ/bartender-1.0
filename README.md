@@ -13,6 +13,7 @@ It has two functionalities.
  Bartender requires that the gcc compiler should be at least gcc4-7 version. Installation is simple.
  1. make all
  2. sudo make install
+
 The default install directory is /usr/local/bin and is hard coded in the make file. If you want to change the install directory, you need to make a small change to the Makefile.
 
 # Input:
