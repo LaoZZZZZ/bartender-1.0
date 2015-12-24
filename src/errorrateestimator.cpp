@@ -22,7 +22,7 @@ ErrorRateEstimator::ErrorRateEstimator(double entropy_threshold, size_t cluster_
 }
 
 //
-void ErrorRateEstimator::Estimate(const std::list<std::shared_ptr<cluster>>& clusters) {
+void ErrorRateEstimator::Estimate(const std::list<std::shared_ptr<cluster>>& clusters, bool silence) {
     _entropies.clear();
     int majority = 0;
     int total_base_pair = 0;
@@ -56,25 +56,29 @@ void ErrorRateEstimator::Estimate(const std::list<std::shared_ptr<cluster>>& clu
         }
 
     }
-    // Could not collect enough high quality barcode for estimation of error rate.
-    if (total_barcodes < _maximum_barcodes) {
-        std::cerr << "Could not collect enough barcodes from high quality clusters(max entropy < "
-                     << _entropy_threshold << ", " << "cluster size >= " << _cluster_size << " ) "
-                  << "to estimate the error rate!" << endl;
-        std::cerr << "The estimated error rate might not be accurate and reliable!" <<endl;
+    if (!silence) {
+    	// Could not collect enough high quality barcode for estimation of error rate.
+    	if (total_barcodes > 0 && total_barcodes < _maximum_barcodes) {
+        	std::cerr << "Could not collect enough barcodes from high quality clusters(max entropy < "
+                     	<< _entropy_threshold << ", " << "cluster size >= " << _cluster_size << " ) "
+                  	<< "to estimate the error rate!" << endl;
+        	std::cerr << "The estimated error rate might not be accurate and reliable!" <<endl;
+    	}
+    	// Can not find a single cluster that satisfy the specified condition.
+    	if (total_base_pair == 0) {
+        	stringstream log;
+        	log << "Could not find any high quality clusters(max entropy < "
+                     	<< _entropy_threshold << ", " << "cluster size > " << _cluster_size << " ) "
+                  	<< "to estimate the error rate!" << endl;
+        	log << "Please use the result cautiously(Better to check the input data)!" <<endl;
+        	//throw runtime_error(log.str());
+        	std::cerr << log.str() << std::endl;
+    	}
     }
-    // Can not find a single cluster that satisfy the specified condition.
-    if (total_base_pair == 0) {
-        stringstream log;
-        log << "Could not any high quality clusters(max entropy < "
-                     << _entropy_threshold << ", " << "cluster size > " << _cluster_size << " ) "
-                  << "to estimate the error rate!" << endl;
-        log << "Please the check the specified threshold or the data it self!" <<endl;
-        //throw runtime_error(log.str());
-        std::cerr << log.str() << std::endl;
-        _error_rate = 0;
-    } else {
+    if (total_base_pair > 0){
         _error_rate = 1 - static_cast<double>(majority) / total_base_pair;
+    } else {
+       	_error_rate = 0;
     }
 }
 
