@@ -17,7 +17,7 @@ It has two functionalities.
 The default install directory is /usr/local/bin and is hard coded in the make file. If you want to change the install directory, you need to make a small change to the Makefile.
 
 # Input:
- Currently it accepts two different input formats. 
+ Currently it accepts two different input formats(See the file under the example folder). 
   1. The raw barcode text file. The file should only have one column, which is the raw barcode. 
   2. The raw count table csv file. The file has two columns. The first column is the barcode sequence, the second column is the frequency of the corresponding barcode. This format is used for the case that the PCR effect has been removed.
 
