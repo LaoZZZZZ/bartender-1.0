@@ -4,7 +4,7 @@
 
 Bartender is a c++ tool that is designed to process random barcode data. Bartender is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
 
-It currently has two functionalities. 
+It has two functionalities. 
 
 1. It can call out true barcodes and their population size.
 2. Find the trajectory for multiple time points(Coming out soon).
