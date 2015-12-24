@@ -25,7 +25,7 @@ The barcode in both input formats should be a stretch of DNA sequence(i.e.ATCTAC
 
 # Usage
 
-The command name is bartender_single_com, which is a python file. Use "bartender_single_com -h" for help. There are only 3 options and is very easy to use(See bartender_example.sh file under the example).
+The command name is bartender_single_com, which is a python file. Use "bartender_single_com -h" for help. There are only 3 options and is very easy to use(See bartender_test.sh file under the example).
 
 # Output:
 Bartender outputs three files. 
