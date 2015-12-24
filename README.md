@@ -44,7 +44,7 @@ This file keeps the PWM of each cluster. Check the files in the example folder f
 
 ## c.Barcode file.
 
-This file is used to keep track the assignment of each raw barcode with respect to the cluster. It has three columns
+This file is used to keep track the assignment of each raw barcode with respect to the cluster. It has three columns.
   1. Line.Number: the line number in the raw input file.
   2. Barcode.Sequence: the extracted barcode from the that line. This barcode only contains base pairs in all random positions and all spacers are removed. So it should be different from the original barcode unless the input barcode already has spacers removed.
   3. Cluster.ID: the cluster id which this barcode belongs to.
