@@ -2,7 +2,7 @@
 
 # What's bartender?
 
-Bartender is a c++ tool that is designed to process random barcode data. Bartender is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+Bartender is a c++ tool that is designed to process random barcode data. Bartender is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
 
 It currently has two functionalities. 
 
