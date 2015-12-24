@@ -11,6 +11,7 @@ Bartender is a c++ tool that is designed to process random barcode data. It curr
  Bartender requires that the gcc compler should be at least be gcc4-7 version. Installation is simple.
  1. make all
  2. sudo make install
+The default install directory is /usr/local/bin and is hard coded in the make file. If you want to change the install directory, you need to change the Makefile a little bit.
 
 # Input:
  Currently it accepts two different input formats. 
