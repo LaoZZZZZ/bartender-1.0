@@ -34,7 +34,9 @@ void ClusterOutput::WriteToFile(const std::list<std::shared_ptr<cluster>>& clust
             max_length = i;
         }
     }
-    ClusterTableDumper cluster_dumper(_filename_prefix + "_cluster.csv");
+    size_t num_time_points = clusters.front()->columns().size();
+    ClusterTableDumper cluster_dumper(_filename_prefix + "_cluster.csv", num_time_points);
+    
     QualityTableDumper quality_dumper(_filename_prefix + "_quality.csv", max_length);
     BarcodeTableDumper barcode_link_dumper(_filename_prefix + "_barcode.csv");
     

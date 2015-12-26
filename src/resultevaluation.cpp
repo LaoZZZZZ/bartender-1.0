@@ -21,7 +21,7 @@ void ResultEvaluation::EstimateError(double entropy_threshold_for_error,
                                                            cluster_size,
                                                            minimum_barcodes);
     _estimator.reset(estimator);
-    _estimator->Estimate(*_clusters);
+    _estimator->Estimate(*_clusters, false);
     _error_rate = _estimator->ErrorRate();
 
 }

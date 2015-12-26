@@ -14,17 +14,29 @@
 
 namespace barcodeSpace{
 /**
-  * CSV file format dumper.
+  * Self writtened CSV file format dumper.
+  * It has the same functionality with class TableDumper.
+  * The only difference is that this class use a buffer.
 */
 template <typename T>
 class CSVOutput
 {
 public:
-    CSVOutput(const std::string& filename, const std::list<std::string>& header):
-    _filename(filename),_out(filename,std::fstream::out),
-    _columns(header.begin(), header.end())
+    CSVOutput(const std::string& filename):
+    _filename(filename),_out(filename,std::fstream::out)
     {
         this->init();
+    }
+    void Write(const std::vector<T>& columns) {
+        if (columns.empty()) return;
+        this->_out << columns.front();
+        auto iter = columns.begin();
+        advance(iter, 1);
+        while (iter != columns.end()) {
+            this->_out << "," << *iter;
+            advance(iter, 1);
+        }
+        this->_out << std::endl;
     }
     void Write(const std::list<T>& columns){
         if (columns.empty()) return;
@@ -62,25 +74,7 @@ private:
     const static size_t BUF_SZ = 128*1024;
     char    buffer_[BUF_SZ];
 
-protected:
-    void writeHeader() {
-        if(!this->_columns.empty()){
-            
-            // Write the header
-            this->_out << this->_columns.front();
-            auto iter = this->_columns.begin();
-            advance(iter,1);
-            while(iter != this->_columns.end()){
-                this->_out<<','<<*iter;
-                advance(iter, 1);
-            }
-            this->_out << std::endl;
-        }
-    }
-    
     std::ofstream                    _out;
-    std::vector<std::string>        _columns;
-
 };
 }
 #endif // CSVOUTPUT_H

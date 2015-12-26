@@ -79,11 +79,7 @@ namespace barcodeSpace {
                                           const std::string& barcode) {
         string result;
         for (const auto& span : seed_span) {
-<<<<<<< HEAD
 	    result += barcode.substr(span.first, span.second);
-=======
-		result += barcode.substr(span.first, span.second);
->>>>>>> 3e94a7cd12fbb12d96e85f75e1daaf2c9f51a7e6
         }
         return result;
     }

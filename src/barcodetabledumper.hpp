@@ -9,7 +9,7 @@
 #ifndef barcodetabledumper_hpp
 #define barcodetabledumper_hpp
 
-#include "minicsv.h"
+#include "csvoutput.h"
 #include "rawdatainfo.hpp"
 
 #include <list>
@@ -20,22 +20,21 @@ namespace barcodeSpace {
     public:
         BarcodeTableDumper(const std::string& filename) : _out(filename.c_str()) {
             generateHeader();
-            writeHeader();
+            _out.Write(_cash);
         }
         void writeBarcodeLine(int cluster_id, const RawDataInfo& data_info);
         ~BarcodeTableDumper() {
-            this->_out.close();
         }
     private:
         void generateHeader() {
-            _header.push_back("Line.Number");
-            _header.push_back("Barcode.Sequence");
-            _header.push_back("Cluster.ID");
+            _cash.push_back("Line.Number");
+            _cash.push_back("Barcode.Sequence");
+            _cash.push_back("Cluster.ID");
         }
         void writeHeader();
 
-        csv::ofstream _out;
-        std::vector<std::string> _header;
+        CSVOutput<std::string> _out;
+        std::vector<std::string> _cash;
     };
 }   // namespace barcodeSpace
 #endif /* barcodetabledumper_hpp */

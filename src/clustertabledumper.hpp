@@ -12,7 +12,7 @@
 //#include "csvoutput.h"
 #include "cluster.h"
 #include "kmerdecoder.hpp"
-#include "minicsv.h"
+#include "csvoutput.h"
 #include "typdefine.h"
 
 #include <array>
@@ -30,33 +30,43 @@ namespace barcodeSpace {
         double cluster_score;
         std::string center;
         std::vector<freq>   time_points;
-        
+        std::vector<std::string> toStream() const{
+            std::vector<std::string> stream;
+            stream.push_back(std::to_string(cluster_id));
+            stream.push_back(center);
+            stream.push_back(std::to_string(cluster_score));
+            for (const auto& f : time_points) {
+                stream.push_back(std::to_string(f));
+            }
+            return stream;
+        }
     };
     
-    class ClusterTableDumper {
+    class ClusterTableDumper{
     public:
-        ClusterTableDumper(const std::string& filename):
-        _out(filename.c_str()) {
-            _out.set_delimiter(',', " ");
+        ClusterTableDumper(const std::string& filename, size_t num_time_points): _out(filename)
+        {
+            generateHeader(num_time_points);
+            _out.Write(_cash);
         }
         
         void WriteCluster(const std::shared_ptr<cluster>& c) {
-            ClusterTableElement elem;
-            elem.cluster_id = c->ClusterID();
-            elem.cluster_score = maxEntropy(c->bpFrequency());
-            elem.center = decodeKmer(c->center()->center(), c->center()->klen());
-            elem.time_points = c->columns();
-            Write(elem);
+            _cash[0] = std::to_string(c->ClusterID());
+            _cash[1] = decodeKmer(c->center()->center(), c->center()->klen());
+            _cash[2] = std::to_string(maxEntropy(c->bpFrequency()));
+            size_t pos = 3;
+            assert(_cash.size() - pos == c->columns().size());
+            for (const auto& f : c->columns()) {
+                _cash[pos] = std::to_string(f);
+                ++pos;
+            }
+            _out.Write(_cash);
         }
         ~ClusterTableDumper() {
-            this->_out.close();
         }
     private:
-        // Write a single line.
-        void Write(const ClusterTableElement& line);
         // Generates the header correspondingly upon the first cluster.
         void generateHeader(size_t num_time_points);
-        void writeHeader();
         std::string decodeKmer(const kmer& k, size_t klen) {
             if (kmer_decoders.find(klen) == kmer_decoders.end()) {
                 kmer_decoders[klen].reset(new KmerDecoder(klen));
@@ -64,11 +74,11 @@ namespace barcodeSpace {
             return kmer_decoders[klen]->DNASequence(k);
         }
         double maxEntropy(const std::vector<std::array<int, 4>>& frequency_table);
-        std::vector<std::string>    _header;
 
-
-        csv::ofstream _out;
+        
+        std::vector<std::string>    _cash;
         std::unordered_map<size_t, std::shared_ptr<KmerDecoder>> kmer_decoders;
+        CSVOutput<std::string>  _out;
     };
 }   // namespace barcodeSpace
 

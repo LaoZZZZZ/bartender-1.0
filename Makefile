@@ -26,7 +26,7 @@ install:
 #	$(CP) $(COMBINER) $(INSTALLDIR)
 	$(CP) $(WRAPPER) $(INSTALLDIR)
 uninstall:
-	$(RM) -r $(INSTALLDIR)/$(PROG)
+	$(RM) -r $(INSTALLDIR)/$(SINGLE)
 	$(RM) -r $(INSTALLDIR)/$(WRAPPER)
 clean:
 	$(RM) $(BARTENDERSINGLEOBJECTS)

@@ -50,7 +50,7 @@ void MultipleTimePointsProcessor::process() {
         loader.LoadClusters(&new_clusters);
         // Estimate the sequence error for this single time point.
         for (const auto& clusters : new_clusters) {
-            _error_estimator->Estimate(clusters.second);
+            _error_estimator->Estimate(clusters.second, false);
             _original_error_rates[clusters.first].push_back(_error_estimator->ErrorRate());
             _link_generator->Generate(clusters.second,
                                       _error_estimator->Entropies());
@@ -65,10 +65,10 @@ void MultipleTimePointsProcessor::process() {
             merger.merge();
             const list<shared_ptr<cluster>>& merged_clusters = merger.mergedClusters();
 
-            _error_estimator->Estimate(merged_clusters);
+            _error_estimator->Estimate(merged_clusters, false);
             _center_merger->merge(merged_clusters, _error_estimator->Entropies());
             mediate_clusters[batch.first] = _center_merger->clusters();
-            _error_estimator->Estimate(_center_merger->clusters());
+            _error_estimator->Estimate(_center_merger->clusters(), false);
 
             _link_generator->Generate(_center_merger->clusters(),
                                       _error_estimator->Entropies());
@@ -90,10 +90,10 @@ void MultipleTimePointsProcessor::process() {
                 TimePointsMerger merger(NULL, batch.second ,batch.first, num_time_points,1);
                 merger.merge();
                 const list<shared_ptr<cluster>>& merged_clusters = merger.mergedClusters();
-                _error_estimator->Estimate(merged_clusters);
+                _error_estimator->Estimate(merged_clusters, false);
                 _center_merger->merge(merged_clusters, _error_estimator->Entropies());
                 mediate_clusters[batch.first] = _center_merger->clusters();
-                _error_estimator->Estimate(_center_merger->clusters());
+                _error_estimator->Estimate(_center_merger->clusters(), false);
 
                 _link_generator->Generate(_center_merger->clusters(),
                                           _error_estimator->Entropies());
