@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-#bartender_single_com -f rawbarcode_1_input.csv -o rawbarcode_1_result -c 1  
-bartender_single_com -f rawbarcode_2_input.csv -o rawbarcode_2_result -c 1  
+bartender_single_com -f rawbarcode_1_input.csv -o rawbarcode_1_result -c 1  
+#bartender_single_com -f rawbarcode_2_input.csv -o rawbarcode_2_result -c 1  
 #./bartender_single example/barcode_1.csv example/barcode_1_result 1  
 #./bartender_single /Users/lukez/Documents/barcode_single_end/simulation_data/Simulated_barcode_seq.csv /Users/lukez/Documents/barcode_single_end/simulation_data/simulated_data  2 
 #./simulation_test /home/laozzzzz/Documents/barcode_single_end/simulation_data/Simulated_barcode_freq.txt /home/laozzzzz/Documents/barcode_single_end/simulation_data/simulated_data_cluster 10 0  

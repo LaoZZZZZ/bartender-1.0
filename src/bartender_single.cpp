@@ -109,7 +109,7 @@ void drive(std::string barcodefile,  // original read file
             continue;
 	cout << endl << endl;
 	cout << "*********************************************************************" << endl;
-        cout << "Clustering those barcodes which have " << blen << " random positions" << endl;
+        cout << "Clustering those barcodes which have " << blen + 1 << " random positions" << endl;
 
         size_t start = 0;
         size_t klen = blen*2;

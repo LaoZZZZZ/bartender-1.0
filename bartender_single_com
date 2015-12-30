@@ -13,7 +13,7 @@ def usage():
 	print "\tthere are 3 options, the first 2 is required, the third one is optional,for help use -h or --help:"
 	print " \t -f the input fastq file "
 	print "\t -o the output prefix"
-	print "\t -c the frequency cutoff, which is used to filter low frequency barcode(cluster) at the end "
+	print "\t -c the frequency cutoff. All clusters with size less then this threshold will not included in the result."
 def driver():
 	inputfile = ''
 	outprefix = ''
