@@ -34,7 +34,7 @@ Bartender outputs three files.
    
 This file contains general information of each cluster. It has at least four columns.
   1. Cluster.ID: the unique ID of the cluster.
-  2. Center: the center of this cluster. Typically the center will be viewed as the true barcode in the downstream analysis.
+  2. Center: the center of this cluster. The center is the representative sequence of all original barcodes that belong to this cluster. Typically the center will be viewed as the true barcode in the downstream analysis.
   3. Cluster.Score: the score measures the quality of the cluster. The lower the score is, the higher the cluster quality is. The score is calculated based on the entropy of binary variable using the Position Weight Matrix(PWM). Here is a brief explanation. Each cluster will have a PWM, which has the frequency of each nucleotide at each position. Based on the PWM, pick up the majority nucleotide and calculate its percentage(P). then the entropy value of each position is -P*log2(P) - (1 - P)*log2(1-P) . The score is the maximum value of entropy values among all positions.
   4. The remaining columns are the cluster size at each time point. For single time point processing, the fourth column is the size of the cluster.
 
