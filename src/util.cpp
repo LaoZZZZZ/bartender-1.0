@@ -108,8 +108,8 @@ double similarityScore(const kmer& center,
 
 bool qualityCheck(const std::string& qual, double threshold){
     double average(0);
-    int len = qual.length();
-    for(int i = 0; i < len; i++){
+    size_t len = qual.length();
+    for(size_t i = 0; i < len; i++){
         average += static_cast<int>(qual[i]);
     }
     return average/len > threshold;

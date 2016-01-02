@@ -26,6 +26,7 @@ void fastqPattern::parseImp(Sequence& read,
             if(c < 0) {
                 success = false; done = true;
             }
+            line_num_ += 1;
         }
         if(c != '@') {
             std::cerr << "Error: reads file does not look like a FASTQ file" << std::endl;
@@ -35,7 +36,7 @@ void fastqPattern::parseImp(Sequence& read,
         first_ = false;
     }
     // Read to the end of the id line, sticking everything after the '@'
-    // into *name
+    // into id
 
     std::string& id = read.id();
 
@@ -59,6 +60,7 @@ void fastqPattern::parseImp(Sequence& read,
                     throw 1;
                 }
             }
+            line_num_ += 1;
             break;
         }
         id += c;
@@ -85,6 +87,7 @@ void fastqPattern::parseImp(Sequence& read,
                         throw 1;
                     }
                 }
+                line_num_ += 1;
                 break;
             }
             // convert N to A
@@ -97,6 +100,7 @@ void fastqPattern::parseImp(Sequence& read,
     assert_eq('+', c);
     // skip the option sequence at '+' line
     c = this->fb_->getPastNewline();
+    line_num_ += 1;
     if(c <0){
         read.clear(); success = false; done = true;
         std::cerr << "Error: reads file does not look like a FASTQ file" << std::endl;
@@ -109,6 +113,7 @@ void fastqPattern::parseImp(Sequence& read,
         if(c == '\n' || c == '\r')
             break;
     }
+    line_num_ += 1;
     success = true;
     assert(qual.length() == sequence.length());
     done = fb_->eof();

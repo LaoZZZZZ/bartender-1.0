@@ -1,3 +1,10 @@
+//
+//  barcodecounter.cpp
+//  barcode_project
+//
+//  Created by luzhao on 12/25/15.
+//  Copyright © 2015 luzhao. All rights reserved.
+//
 #include "barcodecounter.h"
 #include <string>
 #include "kmers_bitwisetransform.h"

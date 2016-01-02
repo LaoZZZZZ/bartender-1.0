@@ -1,7 +1,7 @@
 /*
- * Copyright 2014, Lu Zhao <luzhao1986@gmail.com>
+ * Copyright 2015, Lu Zhao <luzhao1986@gmail.com>
  *
- * This file is part of suffix matching project.
+ * This file is part of bartender project.
  */
 
 #ifndef FASTAPATTERN_H

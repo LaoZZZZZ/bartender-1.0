@@ -477,5 +477,236 @@ private:
 	size_t    _lastn_cur;
 	char      _lastn_buf[LASTN_BUF_SZ]; // buffer of the last N chars dispensed
 };
+    
+    
+    /**
+     * Wrapper for a buffered output stream that writes characters and
+     * other data types.  This class is *not* synchronized; the caller is
+     * responsible for synchronization.
+     */
+    class OutFileBuf {
+        
+    public:
+        
+        /**
+         * Open a new output stream to a file with given name.
+         */
+        OutFileBuf(const std::string& out, bool binary = false) :
+        name_(out.c_str()), cur_(0), closed_(false)
+        {
+
+            out_ = fopen(out.c_str(), binary ? "wb" : "w");
+            if(out_ == NULL) {
+                std::cerr << "Error: Could not open output file " << out.c_str() << std::endl;
+                throw 1;
+            }
+        }
+        /**
+         * Open a new output stream to a file with given name.
+         */
+        OutFileBuf(const std::string& out, const char* option) :
+        name_(out.c_str()), cur_(0), closed_(false)
+        {
+            assert(option);
+            out_ = fopen(out.c_str(), option);
+            if(out_ == NULL) {
+                std::cerr << "Error: Could not open output file " << out.c_str() << std::endl;
+                throw 1;
+            }
+        }
+        /**
+         * Open a new output stream to a file with given name.
+         */
+        OutFileBuf(const char *out, bool binary = false) :
+        name_(out), cur_(0), closed_(false)
+        {
+            
+            assert(out != NULL);
+            
+            out_ = fopen(out, binary ? "wb" : "w");
+            
+            if(out_ == NULL) {
+                std::cerr << "Error: Could not open output file " << out << std::endl;
+                throw 1;
+            }
+        }
+        /**
+         * Open a new output stream to standard out.
+         */
+        OutFileBuf() : name_("cout"), cur_(0), closed_(false) {
+            out_ = stdout;
+        }
+        
+        /**
+         * Close buffer when object is destroyed.
+         */
+        virtual ~OutFileBuf() { close(); }
+        
+        /**
+         * Open a new output stream to a file with given name.
+         */
+        void setFile(const char *out, bool binary = false) {
+            assert(out != NULL);
+            out_ = fopen(out, binary ? "wb" : "w");
+            if(out_ == NULL) {
+                std::cerr << "Error: Could not open output file " << out << std::endl;
+                throw 1;
+            }
+            reset();
+        }
+        void setFile(FILE* out){
+            
+            this->close();
+            assert(out != NULL);
+            //this->close();
+            out_ = out;
+            reset();
+        }
+        /**
+         * Write a single character into the write buffer and, if
+         * necessary, flush.
+         */
+        void write(char c) {
+            assert(!closed_);
+            if(cur_ == BUF_SZ) flush();
+            buf_[cur_++] = c;
+        }
+        
+        /**
+         * Write a c++ string to the write buffer and, if necessary, flush.
+         */
+        void writeString(const std::string& s) {
+            assert(!closed_);
+            size_t slen = s.length();
+            if(cur_ + slen > BUF_SZ) {
+                if(cur_ > 0) flush();
+                if(slen >= BUF_SZ) {
+                    fwrite(s.c_str(), slen, 1, out_);
+                    fflush(out_);
+                } else {
+                    memcpy(&buf_[cur_], s.data(), slen);
+                    assert_eq(0, cur_);
+                    cur_ = slen;
+                }
+            } else {
+                memcpy(&buf_[cur_], s.data(), slen);
+                cur_ += slen;
+            }
+            assert_leq(cur_, BUF_SZ);
+        }
+        
+        /**
+         * Write a c++ string to the write buffer and, if necessary, flush.
+         */
+        template<typename T>
+        void writeString(const T& s) {
+            assert(!closed_);
+            size_t slen = s.length();
+            if(cur_ + slen > BUF_SZ) {
+                if(cur_ > 0) flush();
+                if(slen >= BUF_SZ) {
+                    fwrite(s.toZBuf(), slen, 1, out_);
+                    fflush(out_);
+                } else {
+                    memcpy(&buf_[cur_], s.toZBuf(), slen);
+                    assert_eq(0, cur_);
+                    cur_ = slen;
+                }
+            } else {
+                memcpy(&buf_[cur_], s.toZBuf(), slen);
+                cur_ += slen;
+            }
+            assert_leq(cur_, BUF_SZ);
+        }
+        
+        /**
+         * Write a c++ string to the write buffer and, if necessary, flush.
+         */
+        void writeChars(const char * s, size_t len) {
+            assert(!closed_);
+            if(cur_ + len > BUF_SZ) {
+                if(cur_ > 0) flush();
+                if(len >= BUF_SZ) {
+                    fwrite(s, len, 1, out_);
+                    fflush(out_);
+                } else {
+                    memcpy(&buf_[cur_], s, len);
+                    assert_eq(0, cur_);
+                    cur_ = len;
+                }
+            } else {
+                memcpy(&buf_[cur_], s, len);
+                cur_ += len;
+            }
+            assert_leq(cur_, BUF_SZ);
+        }
+        
+        /**
+         * Write a 0-terminated C string to the output stream.
+         */
+        void writeChars(const char * s) {
+            writeChars(s, strlen(s));
+        }
+        
+        /**
+         * Write any remaining bitpairs and then close the input
+         */
+        void close() {
+            if(closed_) return;
+            if(cur_ > 0)
+                flush();
+            closed_ = true;
+            if(out_ != stdout) {
+                fclose(out_);
+            }
+        }
+        /**
+         * Reset so that the next write is as though it's the first.
+         */
+        void reset() {
+            cur_ = 0;
+            closed_ = false;
+        }
+        
+        void flush() {
+            if(!fwrite((const void *)buf_, cur_, 1, out_)) {
+                std::cerr << "Error while flushing and closing output" << std::endl;
+                std::cerr.flush();
+                throw 1;
+            }
+            // fflush(out_);
+            cur_ = 0;
+        }
+        //by lu zhao
+        size_t tellp(){
+            if(out_){
+                return ftell(out_) + cur_;
+            }
+            else return -1L;
+        }
+        /**
+         * Return true iff this stream is closed.
+         */
+        bool closed() const {
+            return closed_;
+        }
+        
+        /**
+         * Return the filename.
+         */
+        const char *name() {
+            return name_;
+        }
+        
+    private:
+        
+        static const size_t BUF_SZ = 16 * 1024;
+        
+        const char *name_;
+        FILE       *out_;
+        size_t      cur_;
+        char        buf_[BUF_SZ]; // (large) input buffer
+        bool        closed_;
+    };
 }	// namespace barcodeSpace
 #endif

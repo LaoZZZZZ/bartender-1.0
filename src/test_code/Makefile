@@ -1,5 +1,5 @@
-#CC	= gcc
-CC	= clang++ 
+CC	= g++
+#CC	= clang++ 
 CFLAGS	= -g -fPIC -w -O3 -std=c++11 
 LDFLAGS	=  -lboost_regex 
 WRAPPER	= barcode_com

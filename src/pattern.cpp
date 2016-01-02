@@ -1,5 +1,8 @@
 #include "pattern.h"
+#include "fastapattern.h"
+#include "fastqpattern.h"
 #include "formats.h"
+
 #include <string>
 #include <stdexcept>
 using std::string;

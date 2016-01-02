@@ -7,7 +7,9 @@ namespace barcodeSpace {
 SingleEndBarcodeProcessor::SingleEndBarcodeProcessor(const std::string& filename,
                                                      const boost::regex& pattern,
                                                      file_format format,
-                                                     double qualThreshold)
+                                                     double qualThreshold,
+                                                     const std::string& preceeding,
+                                                     const std::string& suceeding)
     : _qualThreshold(qualThreshold), _totalBarcodes(0), _totalReads(0), _totalValidBarcodes(0)
 {
     patternParser* handler = CreatePatternParser(filename, format);
@@ -15,7 +17,7 @@ SingleEndBarcodeProcessor::SingleEndBarcodeProcessor(const std::string& filename
         throw std::runtime_error("Can not create the file handler for loading!\n");
     }
     _pattern_handler.reset(handler);
-    BarcodeExtractor* extractor = new BarcodeExtractor(pattern);
+    BarcodeExtractor* extractor = new BarcodeExtractor(pattern, preceeding, suceeding);
     if (!extractor) {
         throw std::bad_alloc();
     }
@@ -30,7 +32,7 @@ void SingleEndBarcodeProcessor::Extract() {
         read.clear();
         this->_pattern_handler->parse(read, success, done);
 
-        // If get a read successfully.
+        // If get a read successfully, then extract the barcode from the read.
         if (success) {
             success = this->_barcode_extractor->ExtractBarcode(read);
 

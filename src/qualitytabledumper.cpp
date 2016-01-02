@@ -30,16 +30,16 @@ namespace barcodeSpace {
         
         assert(_max_barcode_length >= pwm.size());
         _cash[0] = to_string(cluster_id);
-
+        
         for (int bp = 0; bp < 4; ++bp) {
-	    _cash[1] = _dict->dna2asc(bp);
+            _cash[1] = _dict->dna2asc(bp);
             size_t pos = 0;
             for (; pos < pwm.size(); ++pos) {
-                _cash[pos + 2] = to_string(pwm[pos][bp]);
+                _cash[pos + 1] = to_string(pwm[pos][bp]);
             }
             while (pos < _max_barcode_length) {
-                _cash[pos + 2] = "0";
-		++pos;
+                _cash[pos + 1] = "0";
+                ++pos;
             }
             _out.Write(_cash);
         }

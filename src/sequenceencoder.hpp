@@ -24,7 +24,7 @@ public:
         assert(_trans);
     }
     
-    inline kmer encode(const std::string& seq) {
+    inline kmer encode(const std::string& seq) const {
         kmer result;
         _trans->seq_2_bitwise(seq, result, seq.length());
         return result;

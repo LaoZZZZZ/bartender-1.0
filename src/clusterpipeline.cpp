@@ -171,6 +171,7 @@ bool clusterPipline::clusterDrive(const barcodeFreqTable& barcodetable){
             filtered_clusters.push_back(c);
         }
     }
+    //_clusters = std::move(filtered_clusters);
     std::swap(_clusters, filtered_clusters);
 
     std::cout<<"Clustering took  ";

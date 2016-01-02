@@ -1,7 +1,7 @@
 /*
- * Copyright 2014, Lu Zhao <luzhao1986@gmail.com>
+ * Copyright 2015, Lu Zhao <luzhao1986@gmail.com>
  *
- * This file is part of suffix matching project.
+ * This file is part of bartender project.
  */
 #include "fastapattern.h"
 
@@ -23,6 +23,7 @@ void fastaPattern::parseImp(Sequence& read, bool &success, bool &done){
             if(c < 0) {
                 success = false; done = true;
             }
+            line_num_ += 1;
         }
         if(c != '>') {
             std::cerr << "Error: reads file does not look like a FASTA file" << std::endl;
@@ -52,6 +53,7 @@ void fastaPattern::parseImp(Sequence& read, bool &success, bool &done){
                     throw 1;
                 }
             }
+            line_num_ += 1;
             break;
         }
         if(c == '>')
@@ -70,6 +72,7 @@ void fastaPattern::parseImp(Sequence& read, bool &success, bool &done){
         }
         else{
             if(c == '\n' || c == '\r') {
+                line_num_ += 1;
                 break;
             }
             seq += c;

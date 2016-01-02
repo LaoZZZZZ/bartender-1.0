@@ -1,0 +1,70 @@
+#!/usr/bin/python
+import os
+import sys
+import getopt
+
+
+def parsePattern(pattern):
+	return ('TACC','ATAA', 9, '(.ACC|T.CC|TA.C|TAC.)(A|T|C|G|N){4,7}(AA)(A|T|C|G|N){4,7}(AA)(A|T|C|G|N){4,7}(TT)(A|T|C|G|N){4,7}(.TAA|A.AA|AT.A|ATA.)')    
+
+def usage():
+	print "\tThere are 4 options, the first 3 is required, the last one is optional,for help use -h or --help:"
+	print " \t -f: the input fastq file(required)"
+	print "\t -o: the output prefix(required)"
+	print "\t -q: the quality threshold(optional. default is 0). Only those barcode that has average quality no less than this threshold will be kept."
+	print "\t -p: the barcode pattern(required). Please follow the instruction in the readme to set up the barcode pattern."
+
+def driver():
+	inputfile = ''
+	outprefix = ''
+	qual_cutoff = 0 
+	pattern = ''
+	preceeding = ''
+	succeeding = ''
+	parts = 0
+    	try:
+        	opt,args = getopt.getopt(sys.argv[1:],"f:o:q:p",["help"])
+    	except getopt.error,msg:
+        	usage()
+        	sys.exit(2)
+    	for o,a in opt:
+        	if o == '-f':
+            		inputfile = a
+            		if not os.path.isfile(inputfile):
+                		print inputfile + " probably is not a valid file!\n"
+                		sys.exit(2)
+        	elif o == '-p':
+            		pattern = a 
+			preceeding, succeeding, parts, pattern = parsePattern(pattern);
+			if not pattern:
+                		print "No barcode pattern was specified!" 
+                		sys.exit(2)
+        	elif o == '-o':
+            		outprefix = a 
+			if not outprefix:
+                		print "No output file was specified!" 
+                		sys.exit(2)
+        	elif o == '-q':
+			try:
+				qual_cutoff = int(a)
+				assert(qual_cutoff > 0)
+			except Exception as err:
+                		print "Frequency cutoff " + a + " is not a valid input!\n"
+                		sys.exit(2)
+        	elif o in  ("-h","--help"):
+            		print usage()
+                	sys.exit(0)
+	if not inputfile:
+		print "There is no input sequence file specified"
+		sys.exit(0)
+	if not outprefix:
+		print "There is no output file specified"
+		sys.exit(0)
+	if not pattern:
+		print "No pattern is specified"
+		sys.exit(0)			
+	os.system('bartender_extractor ' + inputfile + ' ' + outprefix + ' ' + str(qual_cutoff) + ' ' + pattern + ' ' +  preceeding + ' ' + succeeding + ' ' + str(parts))
+if __name__=="__main__":
+	print('Running bartender extractor')
+	driver()
+

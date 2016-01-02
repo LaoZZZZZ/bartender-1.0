@@ -1,3 +1,11 @@
+//
+//  barcodecounter.h
+//  barcode_project
+//
+//  Created by luzhao on 12/25/15.
+//  Copyright © 2015 luzhao. All rights reserved.
+//
+
 #ifndef BARCODECOUNTING_H
 #define BARCODECOUNTING_H
 #include <string>

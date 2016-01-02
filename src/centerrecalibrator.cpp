@@ -32,7 +32,7 @@ bool CenterRecalibrator::IdentifyCenters(const std::vector<std::array<int, 4>>& 
 
 }
 // This function is the replacement of function IdentifyCentersImp.
-// Cause this function will pick up the most representative _maximum_centers
+// Cause this function will pick up the most representative centers.
 std::vector<kmer> CenterRecalibrator::IdentifyCentersOptimalImp(const std::vector<std::array<int, 4>>& base_freq,
                                                          const std::vector<double>& entropies,
                                                          bool& truncated) {
@@ -50,7 +50,7 @@ std::vector<kmer> CenterRecalibrator::IdentifyCentersOptimalImp(const std::vecto
         if (heap_entropy.front().first > _entropy_threshold) {
             checked[index] = true;
             // The majority base pair at index position.
-            int majority = std::max_element(base_freq[index].begin(),base_freq[index].end()) - base_freq[index].begin();
+            int majority = static_cast<int>(std::max_element(base_freq[index].begin(),base_freq[index].end()) - base_freq[index].begin());
             kmer majority_bits = majority;
             majority_bits = majority_bits << (entropies.size() * 2 - 2*(index + 1));
             for(auto& c : centers) {

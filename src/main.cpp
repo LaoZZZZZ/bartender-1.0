@@ -98,7 +98,7 @@ void drive(std::string barcodefile,  // original read file
     for (size_t blen = 0; blen < barcode_tables.size(); ++blen) {
         if (barcode_tables[blen].empty())
             continue;
-        cout << "Clustering those barcode whose has " << blen << " random positions" << endl;
+        cout << "Clustering those barcode whose has " << blen + 1 << " random positions" << endl;
 
         size_t start = 0;
         size_t klen = blen*2;

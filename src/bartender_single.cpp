@@ -45,7 +45,7 @@ void drive(std::string barcodefile,  // original read file
            size_t maximum_centers, // The maximum centers for each cluster
            double zvalue = 10.0,
            bool pool = false,
-           double entropy_threshold_for_error = 0.28, // the majority bp accounts at least 95%.
+           double entropy_threshold_for_error = 0.19, // the majority bp accounts at least 95%.
            // The least size of cluster that will be considered as candidate when estimating the sequencing error
            size_t cluster_size_threshold_for_error = 20,
            // The total number of base pair for estimating sequencing error.
@@ -109,7 +109,7 @@ void drive(std::string barcodefile,  // original read file
             continue;
 	cout << endl << endl;
 	cout << "*********************************************************************" << endl;
-        cout << "Clustering those barcodes which have " << blen + 1 << " random positions" << endl;
+        cout << "Clustering those barcodes which have " << blen << " random positions" << endl;
 
         size_t start = 0;
         size_t klen = blen*2;
@@ -160,7 +160,7 @@ int main(int argc,char* argv[])
     if(argc >= 5)
         seedlen = atoi(argv[4]);
     
-    double entropy_threshold = 0.47;
+    double entropy_threshold = 0.33;
     if (argc >= 6) {
         entropy_threshold = atof(argv[5]);
     }
