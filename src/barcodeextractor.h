@@ -9,10 +9,11 @@ class BarcodeExtractor
 {
 public:
     BarcodeExtractor(const boost::regex& pattern,
-                     const std::string& preceeding,
-                     const std::string& suceeding)
+                     const std::string& preceeding = "",
+                     const std::string& suceeding = "",
+		     size_t parts = 0)
                 : _pattern(pattern), _error_rate(0),
-                  _preceeding(preceeding), _suceeding(suceeding){}
+                  _preceeding(preceeding), _suceeding(suceeding), _parts(parts){}
     // Extracts the barcode region from the read.
     // And change the read in place.
     bool ExtractBarcode(Sequence& read) const;
@@ -37,6 +38,7 @@ private:
     double          _error_rate;
     std::string     _preceeding;
     std::string     _suceeding;
+    size_t          _parts;
 };
 }   // namespace barcodeSpace
 #endif // BARCODEEXTRACTOR_H

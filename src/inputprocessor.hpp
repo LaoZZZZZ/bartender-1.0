@@ -28,7 +28,7 @@ public:
     void process() {parseFile();}
     const std::vector<std::pair<std::string, freq>>& BarcodeList() const {return _original_sequence;}
 protected:
-    std::vector<std::pair<std::string, freq>>    _original_sequence;
+    std::list<std::pair<std::string, size_t>>    _original_sequence;
 private:
     virtual void parseFile() = 0;
 };

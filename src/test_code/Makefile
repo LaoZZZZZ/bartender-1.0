@@ -123,8 +123,15 @@ MEANSEQUENTIALOBJECTS	= $(MEANSEQUENTIALSOURCES:.cpp=.o)
 
 DISTANCESELECTORSOURCES	= ./distance_selector_test.cpp ../distanceselector.cpp
 DISTANCESELECTOROBJECTS = $(DISTANCESELECTORSOURCES:.cpp=.o)
+
+SINGLEREADSPROCESSORSOURCES = ./singlereadsprocessor_test.cpp ../sequence.cpp ../fastqpattern.cpp ../fastapattern.cpp ../barcodeextractor.cpp ../util.cpp ../pattern.cpp ../singlereadsprocessor.cpp ../kmers_dictionary.cpp ../kmers_bitwisetransform.cpp
+SINGLEREADSPROCESSOROBJECTS = $(SINGLEREADSPROCESSORSOURCES:.cpp=.o)
+
 .cpp.o:
 	$(CC)  -c $(CFLAGS) $< -o $@
+
+singlereadsprocessor_test: $(SINGLEREADSPROCESSOROBJECTS)
+	$(CC) $(SINGLEREADSPROCESSOROBJECTS) -o $@ $(LDFLAGS)
 
 clustermerger_test: $(MERGERTESTEROBJECTS)
 	$(CC) $(MERGERTESTEROBJECTS) -o $@ $(LDFLAGS)

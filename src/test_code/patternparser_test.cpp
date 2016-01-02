@@ -14,7 +14,7 @@ using barcodeSpace::fastaPattern;
 using barcodeSpace::patternParser;
 using barcodeSpace::Sequence; 
 int main(void) {
-    std::string fastafile = "./reads/e_coli_10000snp.fa";
+    std::string fastafile = "./reads/test.fa";
     std::unique_ptr<patternParser> parser(new fastaPattern(fastafile));
     bool done = false, success = false;
     Sequence read;
@@ -29,12 +29,12 @@ int main(void) {
 	line += 2;
     }   
     cout << "Total number reads: " << count <<endl;
-    // This file contains 10000 reads.
-    assert(10000 == count);
+    // This file contains 2 reads.
+    assert(2 == count);
 
     ///////////////////////////Test fastqPattern//////////////////////////////////////
     
-    std::string fastqfile = "./reads/1000_reorder.fq";
+    std::string fastqfile = "./reads/test_2M.fq";
     parser.reset(new fastqPattern(fastqfile));
     done = false;
     success = false;
@@ -48,8 +48,8 @@ int main(void) {
 	line += 4;
         assert(success || read.empty());
     } 
-    // The file contains 1000 reads.
-    assert(count == 1000);
+    // The file contains 2 reads.
+    assert(count == 2);
     
     return 0;
 }

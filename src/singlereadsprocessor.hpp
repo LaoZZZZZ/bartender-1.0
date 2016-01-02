@@ -41,13 +41,11 @@ namespace barcodeSpace {
         
         ~SingleReadsProcessor() {
             _barcode_dumper.close();
-            _line_num_dumper.close();
         }
     protected:
         std::unique_ptr<patternParser>  _pattern_handler;
         std::shared_ptr<BarcodeExtractor>   _extractor;
         OutFileBuf _barcode_dumper;
-        OutFileBuf _line_num_dumper;
         file_format _formats;
         std::string _outprefix;
         size_t  _total_reads;
