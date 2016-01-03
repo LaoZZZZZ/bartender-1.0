@@ -1,8 +1,10 @@
+#include "barcodetabledumper.hpp"
+
 #include "clusteroutput.h"
 #include "cluster.h"
 #include "clustertabledumper.hpp"
+#include "kmerdecoder.hpp"
 #include "qualitytabledumper.hpp"
-#include "barcodetabledumper.hpp"
 
 #include <array>
 #include <cassert>
@@ -10,12 +12,13 @@
 #include <memory>
 #include <sstream>
 #include <string>
-
+#include <vector>
 
 using std::list;
 using std::string;
 using std::shared_ptr;
 using std::array;
+using std::vector;
 
 namespace barcodeSpace {
 
@@ -28,11 +31,13 @@ void ClusterOutput::WriteToFile(const std::list<std::shared_ptr<cluster>>& clust
     if (clusters.empty())
         return;
     size_t max_length(0);
+    vector<KmerDecoder> decoders;
     // Get the maximum length of barcode
     for (size_t i = 1; i < raw_data_info.size(); ++i) {
         if (!raw_data_info[i].empty()) {
             max_length = i;
         }
+        decoders.push_back(KmerDecoder(i));
     }
     size_t num_time_points = clusters.front()->columns().size();
     ClusterTableDumper cluster_dumper(_filename_prefix + "_cluster.csv", num_time_points);
@@ -44,10 +49,11 @@ void ClusterOutput::WriteToFile(const std::list<std::shared_ptr<cluster>>& clust
         cluster_dumper.WriteCluster(c);
         quality_dumper.WritePWM(c->ClusterID(), c->bpFrequency());
         for (const auto& edited_barcode : c->barcodes()) {
-            const std::list<RawDataInfo>& barcodes = raw_data_info[c->center()->klen()].at(edited_barcode._key);
-            for (const auto& raw_info : barcodes) {
-                barcode_link_dumper.writeBarcodeLine(c->ClusterID(), raw_info);
-            }
+            const string barcode = decoders[c->center()->klen()].DNASequence(edited_barcode._key);
+            barcode_link_dumper.writeBarcodeLine(c->ClusterID(),
+                                                 barcode,
+                                                 raw_data_info[c->center()->klen()].at(edited_barcode._key));
+
         }
         
             

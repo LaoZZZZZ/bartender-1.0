@@ -8,8 +8,8 @@
 #include "formats.h"
 #include "inputprocessor.hpp"
 #include "rawbarcodeprocessor.hpp"
-#include "countbarcodeprocessor.hpp"
-#include "countencodedbarcodeprocessor.hpp"
+//#include "countbarcodeprocessor.hpp"
+//#include "countencodedbarcodeprocessor.hpp"
 #include "mergebycenters.h"
 #include "timer.h"
 #include "util.h"
@@ -59,16 +59,18 @@ void drive(std::string barcodefile,  // original read file
     vector<string> test_row;
     std::unique_ptr<InputProcessor> processor;
     if (reader.nextRow(&test_row) && test_row.size() <= 2) {
-        if (test_row.size() == 1) {
+        if (test_row.size() == 2) {
             // Assume there is no head defaultly.
             processor.reset(new RawBarcodeProcessor(barcodefile,false));
 	
         } else {
-	    if (isdigit(test_row[0][0])) {
-		processor.reset(new CountEncodedBarcodeProcessor(barcodefile, false));
-	    } else {
+            /*
+            if (isdigit(test_row[0][0])) {
+                processor.reset(new CountEncodedBarcodeProcessor(barcodefile, false));
+            } else {
             	processor.reset(new CountBarcodeProcessor(barcodefile, false));
-            }
+            }*/
+            //throw runtime_error("Does not support the input file format!\n");
         }
 
     } else {
@@ -79,13 +81,15 @@ void drive(std::string barcodefile,  // original read file
     
     processor->process();
     cout << "Finished reading the input data" << endl;
-    const vector<pair<string,freq>>& sequence_list = processor->BarcodeList();
+    //const vector<pair<string,freq>>& sequence_list = processor->BarcodeList();
     // 2. Find those random positions. Use those bases position as seed for clustering
-    BarcodeEditor editor(32U);
+    /*BarcodeEditor editor(32U);
     editor.editBarcodes(sequence_list);
-    const vector<barcodeFreqTable>& barcode_tables = editor.barcodeTable();
+        */
+    const vector<barcodeFreqTable>& barcode_tables = processor->BarcodeTable();
+    const vector<unordered_map<kmer, list<string>>>& barcode_line_table = processor->BarcodeList();
     list<std::shared_ptr<cluster>> clusters;
-
+     
     // Later used when the mixturebptester is completed.
     std::shared_ptr<ErrorRateEstimator> error_estimator(
                 new ErrorRateEstimator(entropy_threshold_for_error,
@@ -107,8 +111,8 @@ void drive(std::string barcodefile,  // original read file
     for (size_t blen = 1; blen < barcode_tables.size(); ++blen) {
         if (barcode_tables[blen].empty())
             continue;
-	cout << endl << endl;
-	cout << "*********************************************************************" << endl;
+        cout << endl << endl;
+        cout << "*********************************************************************" << endl;
         cout << "Clustering those barcodes which have " << blen << " random positions" << endl;
 
         size_t start = 0;
@@ -127,18 +131,19 @@ void drive(std::string barcodefile,  // original read file
         cout<<"There are totally " << merged_clusters.size()<< " clusters with length " << blen
             << " and size no less than " << freq_cutoff <<endl;
         clusters.insert(clusters.end(), merged_clusters.begin(), merged_clusters.end());
-	cout << "#####################################################################" << endl;
+        cout << "#####################################################################" << endl;
     }
+    
     if (!clusters.empty()) {
-	cout << endl << endl;        
-	cout << "***************************(overall)*********************************" << endl;
+        cout << endl << endl;
+        cout << "***************************(overall)*********************************" << endl;
         error_estimator->Estimate(clusters, false);
         cout << "The estimated error rate is " << error_estimator->ErrorRate() << endl;
         cout<<"starting to dump clusters to file with prefix "<< outprefix <<endl;
 
         ClusterOutput out(outprefix);
         // Dumps the cluster information.
-        out.WriteToFile(clusters, editor.barcode2Sequence());
+        out.WriteToFile(clusters, barcode_line_table);
     }
 
 

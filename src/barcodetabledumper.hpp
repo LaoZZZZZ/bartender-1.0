@@ -22,7 +22,7 @@ namespace barcodeSpace {
             generateHeader();
             _out.Write(_cash);
         }
-        void writeBarcodeLine(int cluster_id, const RawDataInfo& data_info);
+        void writeBarcodeLine(int cluster_id, const std::string& barcode, const std::list<std::string>& data_info);
         ~BarcodeTableDumper() {
         }
     private:

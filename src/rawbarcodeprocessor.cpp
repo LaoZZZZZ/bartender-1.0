@@ -8,7 +8,7 @@
 
 #include "rawbarcodeprocessor.hpp"
 #include "csvreader.h"
-#include "seedselector.hpp"
+#include "sequenceencoder.hpp"
 
 #include <cassert>
 #include <list>
@@ -26,9 +26,22 @@ namespace barcodeSpace {
     
     void RawBarcodeProcessor::parseFile() {
         vector<string> row;
+        SequenceEncoder encoder;
         while (_csv_reader->nextRow(&row)) {
-            assert(row.size() == 1);
-            _original_sequence.push_back({row[0], 1U});
+            assert(row.size() == 2);
+            size_t blen = row.front().length();
+            while (_barcode_tables.size() < blen + 1) {
+                _barcode_tables.push_back({});
+                _barcode_2_line.push_back({});
+            }
+            kmer k = encoder.encode(row.front());
+            if (_barcode_tables[blen].find(k) == _barcode_tables[blen].end()) {
+                _barcode_tables[blen].insert({k,1U});
+                _barcode_2_line[blen].insert({k,{row[1]}});
+            } else {
+                _barcode_tables[blen][k] += 1;
+                _barcode_2_line[blen][k].push_back(row[1]);
+            }
             row.clear();
         }
     }

@@ -24,11 +24,17 @@
 namespace barcodeSpace {
 class InputProcessor {
 public:
-    InputProcessor() {_original_sequence.clear();}
+    typedef std::unordered_map<kmer, std::list<std::string>> barcodeToLine;
+    InputProcessor() {
+        _barcode_tables.clear();
+        _barcode_2_line.clear();
+    }
     void process() {parseFile();}
-    const std::vector<std::pair<std::string, freq>>& BarcodeList() const {return _original_sequence;}
+    const std::vector<barcodeToLine>& BarcodeList() const {return _barcode_2_line;}
+    const std::vector<barcodeFreqTable>& BarcodeTable() const {return _barcode_tables;}
 protected:
-    std::list<std::pair<std::string, size_t>>    _original_sequence;
+    std::vector<barcodeToLine>       _barcode_2_line;
+    std::vector<barcodeFreqTable>    _barcode_tables;
 private:
     virtual void parseFile() = 0;
 };

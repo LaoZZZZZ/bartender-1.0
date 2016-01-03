@@ -16,10 +16,10 @@ namespace barcodeSpace {
 
     void CountEncodedBarcodeProcessor :: parseFile() {
         vector<string> row;
-	KmerDecoder decoder(20);
+        KmerDecoder decoder(20);
         while (_csv_reader->nextRow(&row)) {
-            assert(row.size() == 2);
-	    kmer k = stoull(row.front());
+            assert(row.size() == 3);
+            kmer k = stoull(row.front());
             _original_sequence.push_back({decoder.DNASequence(k), stoi(row[1])});
             row.clear();
         }

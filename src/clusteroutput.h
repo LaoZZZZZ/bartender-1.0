@@ -22,7 +22,7 @@ class ClusterOutput
 {
     
 public:
-    typedef std::unordered_map<kmer, std::list<RawDataInfo>> barcode2Sequence;
+    typedef std::unordered_map<kmer, std::list<std::string>> barcode2Sequence;
     ClusterOutput(const std::string& filename);
 
     void WriteToFile(const std::list<std::shared_ptr<cluster>>& clusters,
