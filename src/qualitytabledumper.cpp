@@ -35,11 +35,10 @@ namespace barcodeSpace {
             _cash[1] = _dict->dna2asc(bp);
             size_t pos = 0;
             for (; pos < pwm.size(); ++pos) {
-                _cash[pos + 1] = to_string(pwm[pos][bp]);
+                _cash[pos + 2] = to_string(pwm[pos][bp]);
             }
-            while (pos < _max_barcode_length) {
-                _cash[pos + 1] = "0";
-                ++pos;
+            for(;pos < _max_barcode_length; ++pos) {
+                _cash[pos + 2] = "0";
             }
             _out.Write(_cash);
         }

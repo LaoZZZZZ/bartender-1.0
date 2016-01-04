@@ -74,7 +74,6 @@ void drive(const string& reads_file,
     cout << "The estimated sequence error from the fixed part is " << processor.errorRate() << endl;
     delete time;
 }
-/*
 int main(int argc,char* argv[])
 {
     assert(argc >= 3);
@@ -106,4 +105,4 @@ int main(int argc,char* argv[])
           suceeding);
     return 0;
 }
-*/
+

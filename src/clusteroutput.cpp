@@ -33,7 +33,7 @@ void ClusterOutput::WriteToFile(const std::list<std::shared_ptr<cluster>>& clust
     size_t max_length(0);
     vector<KmerDecoder> decoders;
     // Get the maximum length of barcode
-    for (size_t i = 1; i < raw_data_info.size(); ++i) {
+    for (size_t i = 0; i < raw_data_info.size(); ++i) {
         if (!raw_data_info[i].empty()) {
             max_length = i;
         }

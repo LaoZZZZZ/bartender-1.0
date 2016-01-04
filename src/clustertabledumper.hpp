@@ -53,6 +53,7 @@ namespace barcodeSpace {
         void WriteCluster(const std::shared_ptr<cluster>& c) {
             _cash[0] = std::to_string(c->ClusterID());
             _cash[1] = decodeKmer(c->center()->center(), c->center()->klen());
+            //_cash[1] = to_string(c->center()->center());
             _cash[2] = std::to_string(maxEntropy(c->bpFrequency()));
             size_t pos = 3;
             assert(_cash.size() - pos == c->columns().size());
