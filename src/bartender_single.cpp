@@ -8,8 +8,7 @@
 #include "formats.h"
 #include "inputprocessor.hpp"
 #include "rawbarcodeprocessor.hpp"
-//#include "countbarcodeprocessor.hpp"
-//#include "countencodedbarcodeprocessor.hpp"
+
 #include "mergebycenters.h"
 #include "timer.h"
 #include "util.h"

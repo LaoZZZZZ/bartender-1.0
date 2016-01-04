@@ -54,12 +54,13 @@ void drive(const string& reads_file,
            double quality_threshold,
            const boost::regex& pattern,
            const string& preceeding,
-           const string& suceeding) {
+           const string& suceeding,
+	   size_t num_sub_regex) {
     
     Timer* time = new realTimer(cout);
     file_format format = FindInputFormat(reads_file);
     std::shared_ptr<BarcodeExtractor> barcode_extractor(
-        new BarcodeExtractor(pattern,preceeding, suceeding));
+        new BarcodeExtractor(pattern,preceeding, suceeding, num_sub_regex));
     SingleReadsProcessor processor(reads_file,
                                    barcode_extractor,
                                    format,
@@ -74,6 +75,7 @@ void drive(const string& reads_file,
     cout << "The estimated sequence error from the fixed part is " << processor.errorRate() << endl;
     delete time;
 }
+
 int main(int argc,char* argv[])
 {
     assert(argc >= 3);
@@ -97,12 +99,16 @@ int main(int argc,char* argv[])
     if (argc >= 7) {
         suceeding.assign(argv[6]);
     }
+    size_t num_sub_regex = 3;
+    if (argc >= 8) {
+        num_sub_regex = atoi(argv[7]);
+    }
     drive(input_reads_file,
           output_prefix,
           qual_threshold,
           pattern,
           preceeding,
-          suceeding);
+          suceeding,
+	  num_sub_regex);
     return 0;
 }
-

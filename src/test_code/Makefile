@@ -42,7 +42,7 @@ TRANSFORMOBJECTS	= $(TRANSFORMSOURCES:.cpp=.o)
 PATTERNPARSERSOURCES	= ../fastqpattern.cpp ../fastapattern.cpp ../sequence.cpp ./patternparser_test.cpp
 PATTERNPARSEROBJECTS	= $(PATTERNPARSERSOURCES:.cpp=.o)
 
-BARCODEEXTRACTORSOURCES	= ./barcodeextractor_test.cpp ../barcodeextractor.cpp ../sequence.cpp ../kmers_dictionary.cpp ../binaryinfilebuf.cpp ../binaryoutfilebuf.cpp ../util.cpp
+BARCODEEXTRACTORSOURCES	= ./barcodeextractor_test.cpp ../barcodeextractor.cpp ../sequence.cpp ../kmers_dictionary.cpp ../util.cpp
 BARCODEEXTRACTOROBJECTS	= $(BARCODEEXTRACTORSOURCES:.cpp=.o)
 
 BARCODECOUNTERSOURCES	= ./barcodecounter_test.cpp ../barcodecounter.cpp ../sequence.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp

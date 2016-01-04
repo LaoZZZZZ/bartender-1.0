@@ -9,11 +9,11 @@
 using std::string;
 namespace barcodeSpace {
 
-bool BarcodeExtractor::ExtractBarcode(Sequence &read) const {
+bool BarcodeExtractor::ExtractBarcode(Sequence &read)  {
     int position = isMatched(read.fowardSeq(), read.quality());
     return position != -1;
 }
-Sequence BarcodeExtractor::ExtractBarcode(const Sequence& read, bool& success)const {
+Sequence BarcodeExtractor::ExtractBarcode(const Sequence& read, bool& success) {
     success = false;
     Sequence result(read.id(), read.fowardSeq().c_str(), read.quality());
     int pos = isMatched(result.fowardSeq(), result.quality());
@@ -21,7 +21,7 @@ Sequence BarcodeExtractor::ExtractBarcode(const Sequence& read, bool& success)co
     return result;
 }
 
-int BarcodeExtractor::isMatched(string& sequence,string& qual)const{
+int BarcodeExtractor::isMatched(string& sequence,string& qual){
     boost::smatch result;
     if(boost::regex_search(sequence, result, _pattern) && !result.empty()){
         this->combinePieces(sequence,qual,result);
@@ -31,38 +31,29 @@ int BarcodeExtractor::isMatched(string& sequence,string& qual)const{
     reverseComplementInplace(sequence);
     //string rev_sequence = reverseComplement(sequence);
     std::reverse(qual.begin(),qual.end());
-    if(boost::regex_search(sequence,result,_pattern) && !result.empty()){
+    if(boost::regex_search(sequence, result, _pattern) && !result.empty()){
         this->combinePieces(sequence,qual,result);
         return static_cast<int>(result.position());
     }
     return -1;
 }
-void BarcodeExtractor::combinePieces(string& sequence, string& qual, boost::smatch& result)const{
-    assert(result.size() == 10);
-    //sequence.clear();
-    //cout<<sequence<<endl;
+void BarcodeExtractor::combinePieces(string& sequence, string& qual, boost::smatch& result)  {
+    assert(result.size() == _parts + 1);
     string temp;
     string tempqual;
-    //first barcode
-    size_t start = result.position();
-    temp += sequence.substr(start+4,result.position(3)-start-4);
-    tempqual += qual.substr(start+4,result.position(3)-start-4);
-    //second barcode
-    start = result.position(3);
-    temp += sequence.substr(start +2,result.position(5) - start - 2);
-    //third barcode
-    tempqual += qual.substr(start +2,result.position(5) - start - 2);
-
-    start = result.position(5);
-    temp += sequence.substr(start+2,result.position(7) - start -2);
-    // last barcode
-    tempqual += qual.substr(start+2,result.position(7) - start -2);
-
-    start = result.position(7);
-    temp += sequence.substr(start +2, result.position(9)-start -2);
-    tempqual += qual.substr(start +2, result.position(9)-start -2);
+    temp = result[1];
+    _error_bps += hammingDist(_preceeding, temp);
+    temp = result[_parts];
+    _error_bps += hammingDist(_suceeding, temp);
+    _total_bps += _preceeding.length();
+    _total_bps += _suceeding.length();
+    temp.clear();
+    for (const auto& index : _random_part_index) {
+        //std::cout<< index << '\t' << result[index] << '\t' << result.position(index) << std::endl;
+        temp += result[index];
+        tempqual += qual.substr(result.position(index), result[index].length());
+    }
     sequence.assign(temp);
-
     qual.assign(tempqual);
 }
 }   // namespace barcodeSpace
