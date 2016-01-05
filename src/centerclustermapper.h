@@ -73,9 +73,10 @@ public:
         _cluster_2_instance[id] = cl;
         for (const auto& c : centers) {
             _cluster_2_center[id].push_back(c);
-            if (_center_2_cluster.find(c) != _center_2_cluster.end()) {
-                throw std::runtime_error("Two custers share the same center " + std::to_string(_center_2_cluster[c]) +
-                                         " and " + std::to_string(cl->ClusterID()) + "\n");
+            if (_center_2_cluster.find(c) != _center_2_cluster.end() &&
+		_center_2_cluster[c] != cl->ClusterID()) {
+                throw std::runtime_error("Two custers share the same center(cluster ids are: " + std::to_string(_center_2_cluster[c]) +
+                                         " and " + std::to_string(cl->ClusterID()) + ").\n");
             }
             _center_2_cluster[c] = id;
         }

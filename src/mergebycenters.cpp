@@ -3,7 +3,9 @@
 #include "centerclustermapperiterator.h"
 #include "split_util.h"
 #include "clustermergertester.h"
+
 #include <cassert>
+#include <unordered_set>
 namespace barcodeSpace {
 MergeByCenters::MergeByCenters(double entropy_threshold,
                                size_t maximum_centers,
