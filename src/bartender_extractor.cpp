@@ -68,11 +68,11 @@ void drive(const string& reads_file,
                                    quality_threshold);
     processor.extract();
     
-    cout << "Totally there are " << processor.TotalReads() << " in " <<  reads_file << " file!" << endl;
+    cout << "Totally there are " << processor.TotalReads() << " reads in " <<  reads_file << " file!" << endl;
     cout << "Totally there are " << processor.TotalBarcodes() << " valid barcodes from " << reads_file << " file" << endl;
     cout << "Totally there are " << processor.TotalQualifiedBarcodes() << " valid barcodes whose quality pass the quality condition " << endl;
     
-    cout << "The estimated sequence error from the fixed part is " << processor.errorRate() << endl;
+    cout << "The estimated sequence error from the prefix and suffix parts is " << processor.errorRate() << endl;
     delete time;
 }
 
