@@ -90,16 +90,20 @@ This file is used to keep track the assignment of each raw barcode with respect 
  
 # Problems and questions
 
-1. Does bartender has any limitation?
+##Does bartender has any limitation?
 
 Yes. Currently the clustering components could only handle the barcode that the maximum length of its random parts is no longer than 32bp. It will support arbitrary long barcode in the next version.
-2. What's the meaning of cluster in bartender?
+
+##What's the meaning of cluster in bartender?
 
 A cluster represents a "true" barcode. The size of the cluster represents the frequency of the "true" barcode. All barcodes within one cluster have the same length. And the distance between any barcode and the center is within a certain hamming distance. This distance is dynamically determined in the clustering process. Typically the distance ranges from 2 to 4.
-3. Will barcode with insertion and deletion be clustered to its orignal "true" barcode?
+
+##Will barcode with insertion and deletion be clustered to its orignal "true" barcode?
 
 No. BC with insertino and deletion will form a cluster by themselves. Of course, you can assign those barcode back to the "true barcode" base certain critiria on top of the clustering result.
-4. What's the center in the cluster?
+
+##What's the center in the cluster?
 
 A center is the consensus barcode of all barcodes within that barcode.
-5. I had hard time to compile bartender due to the boost installation.
+
+##I had hard time to compile bartender due to the boost installation.
