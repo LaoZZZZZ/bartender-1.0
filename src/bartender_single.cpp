@@ -37,6 +37,7 @@ struct CompareObject {
 
 void drive(std::string barcodefile,  // original read file
            size_t freq_cutoff,   // frequency cutoff
+           double error_rate,
            size_t seedlen,      // seed len
            std::string outprefix,
            double entropy_threshold, // Entopy value for considering as mixture position
@@ -99,7 +100,7 @@ void drive(std::string barcodefile,  // original read file
                 new MergeByCenters(entropy_threshold,
                                    maximum_centers,
                                    p_value,
-                                   error_estimator->ErrorRate()));
+                                   error_rate));
     */
     // currently the error_rate is set to 0.1 cause the mixturebptester is not finished yet.
     std::shared_ptr<MergeByCenters> merger(
@@ -118,7 +119,8 @@ void drive(std::string barcodefile,  // original read file
         size_t klen = blen*2;
         if(seedlen*2 > klen)
             seedlen = 1;
-        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen,freq_cutoff,zvalue, pool);
+        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen,
+                                                  error_rate, freq_cutoff,zvalue, pool);
         std::shared_ptr<clusterPipline> pPipe(pipe);
         pPipe->clusterDrive(barcode_tables[blen]);
 
@@ -159,35 +161,40 @@ int main(int argc,char* argv[])
     
     if(argc >= 4)
         freq_cutoff = atoi(argv[3]);
-
+    
+    double error_rate = 0.01;
+    if (argc >= 5) {
+        error_rate = atof(argv[4]);
+    }
     size_t seedlen = 5;
-    if(argc >= 5)
-        seedlen = atoi(argv[4]);
+    if(argc >= 6)
+        seedlen = atoi(argv[5]);
     
     double entropy_threshold = 0.33;
-    if (argc >= 6) {
-        entropy_threshold = atof(argv[5]);
+    if (argc >= 7) {
+        entropy_threshold = atof(argv[6]);
     }
     
     double p_value = 0.01;
-    if (argc >= 7) {
-        p_value = atof(argv[6]);
+    if (argc >= 8) {
+        p_value = atof(argv[7]);
     }
 
     size_t maximum_centers = 4;
-    if (argc >= 8) {
-        maximum_centers = atoi(argv[7]);
+    if (argc >= 9) {
+        maximum_centers = atoi(argv[8]);
     }
     double zvalue = 10.0;
-    if (argc >= 9) {
-        zvalue = atof(argv[8]);
+    if (argc >= 10) {
+        zvalue = atof(argv[9]);
     }
     bool pool = false;
-    if (argc >= 10) {
-        pool = atoi(argv[9]);
+    if (argc >= 11) {
+        pool = atoi(argv[10]);
     }
     drive(sequencefile,
           freq_cutoff,
+          error_rate,
           seedlen,
           outprefix,
           entropy_threshold,

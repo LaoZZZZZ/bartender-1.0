@@ -10,17 +10,20 @@ print p
 sys.path.append(p)
 '''
 def usage():
-	print "\tthere are 3 options, the first 2 is required, the third one is optional,for help use -h or --help:"
+	print "\tthere are 4 options, the first 2 is required, the remainings are optional,for help use -h or --help:"
 	print " \t -f the input fastq file "
 	print "\t -o the output prefix"
 	print "\t -c the frequency cutoff. All clusters with size less then this threshold will not included in the result."
+	print "\t -e the sequencing error. The default value is 0.01. Could be obtained by running the extraction components."
 def driver():
 	inputfile = ''
 	outprefix = ''
 	freq_cutoff = 1 
+	error_rate = 0.01
     	try:
-        	opt,args = getopt.getopt(sys.argv[1:],"f:o:c:h",["help"])
+        	opt,args = getopt.getopt(sys.argv[1:],"f:o:c:e:h",["help"])
     	except getopt.error,msg:
+		print("Invalid parameters!")
         	usage()
         	sys.exit(2)
     	for o,a in opt:
@@ -41,6 +44,14 @@ def driver():
 			except Exception as err:
                 		print "Frequency cutoff " + a + " is not a valid input!\n"
                 		sys.exit(2)
+		elif o == '-e':
+			try:
+				error_rate = float(a)
+				assert(error_rate <= 1)
+				assert(error_rate >=0)
+			except Exception as err:
+				print("Invalid error rate specified!\n")
+				sys.exit(2)
         	elif o in  ("-h","--help"):
             		print usage()
                 	sys.exit(0)
@@ -51,7 +62,7 @@ def driver():
 		print "There is no output file specified"
 		sys.exit(0)
 			
-	os.system('bartender_single ' + inputfile + ' ' + outprefix + ' ' + str(freq_cutoff))
+	os.system('bartender_single ' + inputfile + ' ' + outprefix + ' ' + str(freq_cutoff) + ' ' + str(error_rate))
 if __name__=="__main__":
 	print('Running bartender')
 	driver()
