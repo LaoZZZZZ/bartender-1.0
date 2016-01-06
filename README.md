@@ -107,3 +107,10 @@ No. BC with insertino and deletion will form a cluster by themselves. Of course,
 A center is the consensus barcode of all barcodes within that barcode.
 
 ##I had hard time to compile bartender due to the boost installation.
+
+First, download and install boost by following the instructions in boost official webpage. Remember specify the installation directory by setting the prefix.
+Second, export BOOST_INSTALL_DIR=install directory.
+
+In this way, the problem should be solved.
+
+
