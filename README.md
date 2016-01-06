@@ -4,18 +4,54 @@
 
 Bartender is a c++ tool that is designed to process random barcode data. Bartender is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY.
 
-It has two functionalities. 
+It currently has two functionalities. 
 
-1. It can call out true barcodes and their population size.
-2. Find the trajectory for multiple time points(Coming out soon).
+1. Extracts the barcode from the original reads
+2. It can call out true barcodes and their population size.
 
-# Install
- Bartender requires that the gcc compiler should be at least gcc4-7 version. Installation is simple.
+
+It will be able to handle multiple time points and estimate the trajectory in the next version.
+
+# Installation
+ Bartender requires boost library and gcc compiler which should be no older than gcc47. Installation is simple.
  1. make all
  2. sudo make install
 
 The default install directory is /usr/local/bin and is hard coded in the make file. If you want to change the install directory, you need to make a small change to the Makefile.
 
+# Components
+##Extraction
+###Input
+This components takes a reads file and outputs the extracted barcode. Current it only supports single-end reads. The following are the input parameters.
+
+-f: the input reads file(required). Only supports FASTQ and FASTA.
+
+-o: the output prefix(required). The output filename will be output prefix + "_barcode.txt"
+
+-q: the quality threshold(optional). Only those barcode that has average quality no less than this threshold will be kept. This threshold is the corresponding ascii value. Different formats might have different ranges, please check relevant reference to determine the value. The default value is 0. That is it will accept all valid barcode.
+
+ 
+-m: the total number of mismatches allowed in the preceeding and suceeding sequence(optional). Default value is 2. The mismatches will be evenly distributed to two parts.
+
+-p: the barcode pattern(required). The general pattern looks like XXXX[min-max]XXXXX[min-max]XXXXX. XXXX part are those fixed DNA sequence, ie. preceeding sequence, spacers and succeeding sequence. [min-max] specified the range of number of random base pairs between two fix parts. Both min and max are integers. The pattern should obey the following rules:
+ 1. It could only have DNA sequence, numerical value, brackets and '-'
+ 2. The DNA sequence before the first bracket is viewed as the proceeding sequence.
+ 3. The DNA sequence after the last bracket is viewed as the succeeding sequence.
+ 5. The range specified by the numeric values within each pair of brackets specifies the possible number of random positions for that part. i.e [2-3] means this random part at least has 2 base pair and 3 base pairs at most. [3] means this part has 3 base pair. 
+ 6. The pattern must start with fixed sequence and end with fixed sequence. In another word, the current version only supports the barcode that has non-empty wrapping sequence on both ends.
+ 7. The maximum length of preceeding and succeeding sequence is 5.
+ 
+Here are some valid examples. 
+
+TACCT[10]ATAA: Preceeding sequence is TACCT followed by a random part having 10 base pairs. The succeeding sequence is ATAA.
+
+TTAC[3]AA[4-5]CCT: The preceeding sequence is TTAC. First random part has 3 base pairs followed by a spacers,which is AA. The second random parts could possibly has 4 or 5 base pairs. The succeeding sequence is CCT.
+
+###Output
+One output file will be generated. It has two columns. The first column is the extracted barcode(Only random parts are kept). The second column is the original line number in the reads file.
+
+
+##Clustering
 # Input:
  Currently it accepts two different input formats(See the file under the example folder). 
   1. The raw barcode text file. The file should only have one column, which is the raw barcode. 
