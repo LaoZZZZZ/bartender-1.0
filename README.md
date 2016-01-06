@@ -34,11 +34,11 @@ This components takes a reads file and outputs the extracted barcode. Currently 
 -m: the total number of mismatches allowed in the preceeding and suceeding sequence(optional). Default value is 2. The mismatches will be evenly distributed to two parts.
 
 -p: the barcode pattern(required). The general pattern looks like XXXX[min-max]XXXXX[min-max]XXXXX. XXXX part are those fixed DNA sequence, ie. preceeding sequence, spacers and succeeding sequence. [min-max] specified the range of number of random base pairs between two fix parts. Both min and max are integers. The pattern should obey the following rules:
- 1. It could only have DNA sequence, numerical value, brackets and '-'
+ 1. It could only have DNA sequence, numerical value, brackets and '-'.
  2. The DNA sequence before the first bracket is viewed as the proceeding sequence.
  3. The DNA sequence after the last bracket is viewed as the succeeding sequence.
  5. The range specified by the numeric values within each pair of brackets specifies the possible number of random positions for that part. i.e [2-3] means this random part at least has 2 base pair and 3 base pairs at most. [3] means this part has 3 base pair. 
- 6. The pattern must start with fixed sequence and end with fixed sequence. In another word, the current version only supports the barcode that has non-empty wrapping sequence on both ends.
+ 6. The pattern must start with fixed sequence and end with fixed sequence. In another word, the preceeding sequence and succeeding sequence should not be empty.
  7. The maximum length of preceeding and succeeding sequence is 5.
  
 Here are some valid examples. 
@@ -48,6 +48,14 @@ TACCT[10]ATAA: Preceeding sequence is TACCT followed by a random part having 10 
 TTAC[3]AA[4-5]CCT: The preceeding sequence is TTAC. First random part has 3 base pairs followed by a spacers,which is AA. The second random parts could possibly has 4 or 5 base pairs. The succeeding sequence is CCT.
 
 TACC[4-7]AA[4-7]AA[4-7]TT[4-7]ATAA. This pattern contains four random parts. Each one at most has 7 base pairs and 4 base pairs at least. The proceeding sequence is TACC. The suceeding sequence is ATAA.
+
+Here are some invalid examples.
+
+[3-4]ATCC: No preceeding sequence.
+
+ATTTCAT[3-4]ATC: the length of preceeding sequence exceeds 5.
+
+ATC[3-]TAC: the numerical range is not valid.
 
 ###Output
 One output file will be generated. It has two columns. The first column is the extracted barcode(Only random parts are kept). The second column is the original line number in the reads file. So it should be easy to use this component to process paired-end reads. Just get the extracted barcode from each file and pair these two files by the line number. Of course, extra care needs to be taken when one side has valid barcode and the other corresponding line does not.
