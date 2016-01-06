@@ -92,7 +92,7 @@ This file is used to keep track the assignment of each raw barcode with respect 
 
 ##Does bartender has any limitation?
 
-Yes. Currently the clustering components could only handle the barcode that the maximum length of its random parts is no longer than 32bp. It will support arbitrary long barcode in the next version.
+Yes. Currently the clustering components could only handle the barcode that the total length of its random parts is no longer than 32bp. It will support arbitrary long barcode in the next version.
 
 ##What's the meaning of cluster in bartender?
 
