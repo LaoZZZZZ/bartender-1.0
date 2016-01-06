@@ -117,7 +117,8 @@ A center is the consensus barcode of all barcodes within that barcode.
 ##I had hard time to compile bartender due to the boost installation.
 
 First, download and install boost by following the instructions in boost official webpage. Remember specify the installation directory by setting the prefix.
-Second, export BOOST_INSTALL_DIR=install directory.
+
+Second, export BOOST_INSTALL_DIR=install directory. The install directory should be the direct parent directory of "lib" and "include" folder.  
 
 In this way, the problem should be solved.
 
