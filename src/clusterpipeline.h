@@ -23,7 +23,7 @@ public:
       * cutoff: frequency that differential "true" barcode and barcode with "error".
       * stopThres: This threshold
     */
-    clusterPipline(size_t pos,size_t span,size_t klen,size_t cutoff = 10,
+    clusterPipline(size_t pos,size_t span,size_t klen,size_t cutoff = 1,
                    double zvalue = 3.08, bool pool = true, double stopThres = 0.01);
     bool clusterDrive(const barcodeFreqTable&);
     bool clusterDrive(const std::list<std::shared_ptr<cluster>>&);
@@ -56,7 +56,7 @@ private:
       * Second round clustering on top of the result from the first round clustering
       *
     */
-    void crossBinClustering();
+    void crossBinClustering(size_t);
 private:
     void init();
 private:

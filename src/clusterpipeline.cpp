@@ -61,7 +61,7 @@ void clusterPipline::transform(const barcodeFreqTable& barcodes){
     }else{
         throw runtime_error("Does not support the cluster type!\n");
     }
-    this->_splitThreshold = static_cast<int>(est.GetMean());
+    this->_splitThreshold = min(5,static_cast<int>(est.GetMean()));
 
     // probably needs to
     DistanceSelector selector(0.01, 0.5, this->_klen);
@@ -86,10 +86,10 @@ bool clusterPipline::shatter(const list<std::shared_ptr<cluster>>& clusters){
     return true;
 }
 
-void clusterPipline::crossBinClustering(){
+void clusterPipline::crossBinClustering(size_t split_thres){
     if(this->_clusters.size()){
         this->_clusters.clear();
-        clusterAlgorithm* temp = new ClusteringWithTest(this->_splitThreshold,this->_klen/2, _dist_threshold, _zvalue, _pool);
+        clusterAlgorithm* temp = new ClusteringWithTest(split_thres, /*this->_splitThreshold,*/this->_klen/2, _dist_threshold, _zvalue, _pool);
         std::shared_ptr<clusterAlgorithm> ptemp(temp);
         for(auto iter = this->_cbins.begin(); iter != this->_cbins.end(); iter++){
             if(iter->size()){
@@ -158,7 +158,8 @@ bool clusterPipline::clusterDrive(const barcodeFreqTable& barcodetable){
 
         total++;
         cout<<"Clustering iteration "<<total<<endl;
-        this->crossBinClustering();
+        //this->crossBinClustering(1);
+        this->crossBinClustering(_splitThreshold);
         size_t tmp(this->_clusters.size());
         if(static_cast<double>(sz - tmp)/sz < this->_stopThres)
             break;
@@ -195,7 +196,7 @@ bool clusterPipline::clusterDrive(const list<std::shared_ptr<cluster>>& clusters
         if(sz == 0)
             break;
         if(this->shatter(this->_clusters)){
-            this->crossBinClustering();
+            this->crossBinClustering(_splitThreshold);
             size_t tmp(this->_clusters.size());
             if(static_cast<double>(sz - tmp)/sz < this->_stopThres)
                 break;

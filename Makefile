@@ -7,7 +7,7 @@ EXTRACTOR = bartender_extractor
 #COMBINER = bartender_combiner
 SINGLEWRAPPER	= bartender_single_com
 EXTRACTORWRAPPER	= bartender_extractor_com
-INSTALLDIR	= /usr/local/bin/
+INSTALLDIR	= /usr/local/bin
 
 # command
 
