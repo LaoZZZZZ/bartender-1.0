@@ -33,7 +33,7 @@ void ClusteringWithTest::split(const list<std::shared_ptr<cluster>>& cls){
         }
     }
     this->_antenna.sort([](const std::shared_ptr<cluster>& c1,
-                        const std::shared_ptr<cluster>& c2) {return c1->size() < c2->size();});
+                        const std::shared_ptr<cluster>& c2) {return c1->size() > c2->size();});
 
 }
 /**
