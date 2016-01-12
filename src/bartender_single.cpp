@@ -45,7 +45,7 @@ void drive(std::string barcodefile,  // original read file
            size_t maximum_centers, // The maximum centers for each cluster
            double zvalue = 10.0,
            bool pool = false,
-           double entropy_threshold_for_error = 0.19, // the majority bp accounts at least 95%.
+           double entropy_threshold_for_error = 0.33, // the majority bp accounts at least 95%.
            // The least size of cluster that will be considered as candidate when estimating the sequencing error
            size_t cluster_size_threshold_for_error = 20,
            // The total number of base pair for estimating sequencing error.
@@ -120,7 +120,7 @@ void drive(std::string barcodefile,  // original read file
         if(seedlen*2 > klen)
             seedlen = 1;
         clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen,
-                                                  error_rate, freq_cutoff,zvalue, pool);
+                                                  freq_cutoff,zvalue, pool);
         std::shared_ptr<clusterPipline> pPipe(pipe);
         pPipe->clusterDrive(barcode_tables[blen]);
 
