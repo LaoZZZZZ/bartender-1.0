@@ -28,7 +28,7 @@ clusterPipline::clusterPipline(size_t pos,size_t span,size_t klen,
 void clusterPipline::init(){
     //
     assert(this->_klen%2 == 0);
-    assert(this->_klen > (_pos + _span));
+    assert(this->_klen > _pos);
     size_t total = static_cast<size_t>(pow(2,this->_span));
     this->_cbins.assign(total,CBin());
     _mask = total -1;
