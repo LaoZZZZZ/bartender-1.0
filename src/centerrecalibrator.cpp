@@ -24,12 +24,22 @@ bool CenterRecalibrator::IdentifyCenters(const std::vector<std::array<int, 4>>& 
                                          std::vector<kmer>* centers) {
     bool more_centers = false;
     //std::vector<kmer> identified_centers = IdentifyCentersImp(base_freq, entropies, more_centers);
-    std::vector<kmer> identified_centers = IdentifyCentersOptimalImp(base_freq, entropies, more_centers);
+    std::vector<kmer> identified_centers =
+            IdentifyCentersOptimalImp(base_freq, entropies, more_centers);
 
     centers->swap(identified_centers);
     //_center_tracker.AddCount(centers->size() + more_centers);
     return more_centers;
 
+}
+bool CenterRecalibrator::IdentifyCenters(
+        const std::vector<std::array<int, 4>>& cluster_bp_frequency,
+        std::vector<kmer>* centers) {
+    std::vector<double> entropies;
+    for (const auto& bp_freq : cluster_bp_frequency) {
+        entropies.push_back(Entropy(bp_freq));
+    }
+    return IdentifyCenters(cluster_bp_frequency, entropies, centers);
 }
 // This function is the replacement of function IdentifyCentersImp.
 // Cause this function will pick up the most representative centers.

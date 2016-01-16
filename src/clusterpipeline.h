@@ -25,8 +25,9 @@ public:
       * cutoff: frequency that differential "true" barcode and barcode with "error".
       * stopThres: This threshold
     */
-    clusterPipline(size_t pos,size_t span,size_t klen,size_t cutoff = 10,
-                   double error_rate = 0.01, double zvalue = 3.08, TESTSTRATEGY test_method = TWOPROPORTIONUNPOOLED, double stopThres = 0.01);
+    clusterPipline(size_t pos,size_t span,size_t klen,double error_rate = 0.01,
+                   double zvalue = 3.08, TESTSTRATEGY test_method = TWOPROPORTIONUNPOOLED,
+                   double stopThres = 0.01);
     bool clusterDrive(const barcodeFreqTable&);
     bool clusterDrive(const std::list<std::shared_ptr<cluster>>&);
     const std::list<std::shared_ptr<cluster>>& clusters(){return this->_clusters;}
@@ -71,7 +72,6 @@ private:
      size_t                                          _klen;  // number of bits that represents the barcodes, start from the low end
     double                                          _error_rate;
      //////////////params for clusting the bins and barcodes clusters////////////////////////
-     size_t                                          _cutoff;
      std::list<std::shared_ptr<cluster>>             _clusters;
      CLUSTERTYPE                                     _ctype;
 

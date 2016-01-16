@@ -15,6 +15,13 @@ inline double Entropy(const std::array<int, 4>& base_freq) {
     }
 }
 
+inline std::vector<double> Entropy(const std::vector<std::array<int, 4>>& bpfrequencies) {
+    std::vector<double> entropies;
+    for (const auto bp_freq : bpfrequencies) {
+        entropies.push_back(Entropy(bp_freq));
+    }
+    return entropies;
+}
 inline double Entropy(const std::array<int, 4>& base_freq, double* majority, double* total) {
     *majority = *std::max_element(base_freq.begin(), base_freq.end());
 

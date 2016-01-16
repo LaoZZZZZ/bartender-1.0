@@ -1,5 +1,6 @@
 
 #include "clusterpipeline.h"
+#include "clusterpruner.hpp"
 #include "clusteralgorithm.h"
 #include "clusteroutput.h"
 #include "csvreader.h"
@@ -47,7 +48,7 @@ void drive(std::string barcodefile,  // original read file
            TESTSTRATEGY pool = TWOPROPORTIONUNPOOLED,
            double entropy_threshold_for_error = 0.28, // the majority bp accounts at least 95%.
            // The least size of cluster that will be considered as candidate when estimating the sequencing error
-           size_t cluster_size_threshold_for_error = 50,
+           size_t cluster_size_threshold_for_error = 20,
            // The total number of base pair for estimating sequencing error.
            size_t number_barcode_for_error_estimator = 100000,
            bool head = false){
@@ -95,20 +96,14 @@ void drive(std::string barcodefile,  // original read file
                 new ErrorRateEstimator(entropy_threshold_for_error,
                                        cluster_size_threshold_for_error,
                                        number_barcode_for_error_estimator));
-    /* // the ultimate formats
-    std::shared_ptr<MergeByCenters> merger(
-                new MergeByCenters(entropy_threshold,
-                                   maximum_centers,
-                                   p_value,
-                                   error_rate));
-    */
-    // currently the error_rate is set to 0.1 cause the mixturebptester is not finished yet.
-    std::shared_ptr<MergeByCenters> merger(
-                new MergeByCenters(entropy_threshold,
-                                   maximum_centers,
-                                   p_value,
-                                   0.1)); // currently the error_rate is set to 0.1
-    for (size_t blen = 1; blen < barcode_tables.size(); ++blen) {
+
+    ClusterPruner cluster_pruner(entropy_threshold,
+                                 maximum_centers,
+                                 p_value,
+                                 error_rate,
+                                 freq_cutoff);
+
+     for (size_t blen = 1; blen < barcode_tables.size(); ++blen) {
         if (barcode_tables[blen].empty())
             continue;
         cout << endl << endl;
@@ -119,19 +114,21 @@ void drive(std::string barcodefile,  // original read file
         size_t klen = blen*2;
         if(seedlen*2 > klen)
             seedlen = 1;
-        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen, freq_cutoff,
+        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen,
                                                   error_rate, zvalue, pool);
         std::shared_ptr<clusterPipline> pPipe(pipe);
         pPipe->clusterDrive(barcode_tables[blen]);
 
         const std::list<std::shared_ptr<cluster>>& cur_clusters = pPipe->clusters();
-        error_estimator->Estimate(cur_clusters, true);
-        merger->merge(cur_clusters, error_estimator->Entropies());
-        const std::list<std::shared_ptr<cluster>>& merged_clusters = merger->clusters();
+         
+        //error_estimator->Estimate(cur_clusters, true);
+         cluster_pruner.prune(cur_clusters);
+        //merger->merge(cur_clusters, error_estimator->Entropies());
+        const std::list<std::shared_ptr<cluster>>& pruned_clusters = cluster_pruner.prunedClusters();
         //std::sort(result.begin(), result.end(), CompareObject());
-        cout<<"There are totally " << merged_clusters.size()<< " clusters with length " << blen
+        cout<<"There are totally " << pruned_clusters.size()<< " clusters with length " << blen
             << " and size no less than " << freq_cutoff <<endl;
-        clusters.insert(clusters.end(), merged_clusters.begin(), merged_clusters.end());
+        clusters.insert(clusters.end(), pruned_clusters.begin(), pruned_clusters.end());
         cout << "#####################################################################" << endl;
     }
     
@@ -163,7 +160,7 @@ int main(int argc,char* argv[])
     if(argc >= 4)
         freq_cutoff = atoi(argv[3]);
     
-    double error_rate = 0.01;
+    double error_rate = 0.005;
     if (argc >= 5) {
         error_rate = atof(argv[4]);
     }
@@ -185,7 +182,7 @@ int main(int argc,char* argv[])
     if (argc >= 9) {
         maximum_centers = atoi(argv[8]);
     }
-    double zvalue = 4;
+    double zvalue = 10.0;
     if (argc >= 10) {
         zvalue = atof(argv[9]);
     }

@@ -7,14 +7,8 @@
 #include <cassert>
 #include <unordered_set>
 namespace barcodeSpace {
-MergeByCenters::MergeByCenters(double entropy_threshold,
-                               size_t maximum_centers,
-                               double p_value,
-                               double error_rate):
-    _linker(), _recalibrator(entropy_threshold,
-                             maximum_centers,
-                             p_value,
-                             error_rate)
+    MergeByCenters::MergeByCenters(const std::shared_ptr<CenterRecalibrator>& calibrator):
+    _linker(), _recalibrator(calibrator)
 
 {
 }
@@ -41,7 +35,7 @@ void MergeByCenters::merge(const std::list<std::shared_ptr<cluster>>& clusters,
     auto entropy_iter = entropies.begin();
     for (const auto& c :  clusters) {
 
-        _recalibrator.IdentifyCenters(c->bpFrequency(), *entropy_iter, &centers);
+        _recalibrator->IdentifyCenters(c->bpFrequency(), *entropy_iter, &centers);
         std::list<std::shared_ptr<cluster>> matched_clusters;
         while (true) {
             matched_clusters.clear();
@@ -63,7 +57,7 @@ void MergeByCenters::merge(const std::list<std::shared_ptr<cluster>>& clusters,
             for(size_t i = 0; i < ftable.size(); ++i) {
                 temp_entropies[i] = Entropy(ftable[i]);
             }
-            _recalibrator.IdentifyCenters(ftable, temp_entropies, &centers);
+            _recalibrator->IdentifyCenters(ftable, temp_entropies, &centers);
 
         }
 

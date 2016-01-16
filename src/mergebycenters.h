@@ -12,10 +12,7 @@ namespace barcodeSpace {
 class MergeByCenters
 {
 public:
-    MergeByCenters(double entropy_threshold,
-                   size_t maximum_centers,
-                   double p_value,
-                   double error_rate);
+    MergeByCenters(const std::shared_ptr<CenterRecalibrator>& calibrator);
     void merge(const std::list<std::shared_ptr<cluster>>& clusters,
                const std::list<std::vector<double>>& entropies);
     const std::list<std::shared_ptr<cluster>>& clusters() const {
@@ -23,7 +20,7 @@ public:
     }
 private:
     std::shared_ptr<CenterClusterMapper>    _linker;
-    CenterRecalibrator                      _recalibrator;
+    std::shared_ptr<CenterRecalibrator>     _recalibrator;
     std::list<std::shared_ptr<cluster>>     _merged_clusters;
 };
 }   // namespace barcodeSpace

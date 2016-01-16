@@ -44,10 +44,10 @@ namespace barcodeSpace {
                 if (success) {
                     // The average quality is above the threshold.
                     if (qualityCheck(read.quality(), _quality_threshold)) {
-			ss << read.fowardSeq() << ',' << line << std::endl; 
+                        ss << read.fowardSeq() << ',' << line << std::endl;
                         _barcode_dumper.writeString(ss.str());
                         ++_total_valid_barcodes;
-			ss.str("");
+                        ss.str("");
                     }
                     // Keep tract all barcodes.
                     ++_total_barcodes;

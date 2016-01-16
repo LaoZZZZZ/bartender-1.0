@@ -1,3 +1,5 @@
+#include <algorithm>
+#include <numeric>
 #include <iostream>
 #include <cassert>
 #include <memory>
@@ -10,12 +12,7 @@
 #include "../cluster.h"
 #include "../dictatorcluster.h"
 #include "../centerrecalibrator.h"
-using std::string;
-using std::endl;
-using std::cout;
-using std::unique_ptr;
-using std::vector;
-using std::array;
+using namespace std;
 using barcodeSpace::DictatorCenter;
 using barcodeSpace::kmersBitwiseTransform;
 using barcodeSpace::cluster;

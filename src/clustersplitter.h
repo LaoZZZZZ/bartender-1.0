@@ -14,7 +14,13 @@ class ClusterSplitter
 public:
     ClusterSplitter(const std::shared_ptr<CenterRecalibrator>& _calibrator,
                     const std::shared_ptr<IDGenerator>& id_pool);
+    
+    // Given a cluster, this function will identify potential centers,
+    // and split this cluster into several well separated clusters.
+    // Each cluster will be assigned an unique ID.
+    // It is possible that the return array has null pointer.
     std::vector<std::shared_ptr<cluster>>   split(const std::shared_ptr<cluster>& c);
+    
     std::shared_ptr<IDGenerator>    IDPool()const {return _id_pool;}
 private:
     std::shared_ptr<CenterRecalibrator>  _calibrator;

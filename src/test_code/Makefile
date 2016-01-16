@@ -61,8 +61,11 @@ CSVREADEROBJECTS	= $(CSVREADERSOURCES:.cpp=.o)
 CLUSTERSOURCES	= ./cluster_test.cpp ../kmer_freq.cpp ../dictatorcenter.cpp ../util.cpp ../binaryinfilebuf.cpp ../binaryoutfilebuf.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../dictatorcluster.cpp ../cluster.cpp ../kmerdecoder.cpp
 CLUSTEROBJECTS	= $(CLUSTERSOURCES:.cpp=.o)
 
-CENTERCALIBRATORSOURCES	= ./center_calibrator_test.cpp ../kmer_freq.cpp ../dictatorcenter.cpp ../util.cpp ../binaryinfilebuf.cpp ../binaryoutfilebuf.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../dictatorcluster.cpp ../cluster.cpp ../mixturebptester.cpp ../centerrecalibrator.cpp 
+CENTERCALIBRATORSOURCES	= ./center_calibrator_test.cpp ../kmer_freq.cpp ../dictatorcenter.cpp ../util.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../dictatorcluster.cpp ../cluster.cpp ../mixturebptester.cpp ../centerrecalibrator.cpp ../kmerdecoder.cpp
 CENTERCALIBRATOROBJECTS	= $(CENTERCALIBRATORSOURCES:.cpp=.o)
+
+CLUSTERSPLITTERSOURCES	= ./clustersplitter_test.cpp ../kmer_freq.cpp ../dictatorcenter.cpp ../util.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../dictatorcluster.cpp ../cluster.cpp ../mixturebptester.cpp ../centerrecalibrator.cpp ../clustersplitter.cpp ../idgenerator.cpp ../kmerdecoder.cpp
+CLUSTERSPLITTEROBJECTS = $(CLUSTERSPLITTERSOURCES:.cpp=.o)
 
 CENTERCLUSTERMAPPERSOURCES	= ./center_cluster_mapper_test.cpp ../kmer_freq.cpp ../dictatorcenter.cpp ../util.cpp ../binaryinfilebuf.cpp ../binaryoutfilebuf.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../dictatorcluster.cpp ../cluster.cpp ../mixturebptester.cpp ../centerrecalibrator.cpp ../centerclustermapper.cpp
 CENTERCLUSTERMAPPEROBJECTS	= $(CENTERCLUSTERMAPPERSOURCES:.cpp=.o)
@@ -97,7 +100,7 @@ CLUSTERPIPELINEOBJECTS	= $(CLUSTERPIPELINESOURCES:.cpp=.o)
 SIMILARITYSCORESOURCES	= ../util.cpp  ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ./similarity_score_test.cpp ../binaryinfilebuf.cpp ../binaryoutfilebuf.cpp
 SIMILARITYSCOREOBJECTS	= $(SIMILARITYSCORESOURCES:.cpp=.o)
 
-SIMULATIONSOURCES	= ./simulation_test.cpp ../barcodecounter.cpp ../sequence.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../fastqpattern.cpp ../fastapattern.cpp ../barcodeextractor.cpp ../util.cpp ../binaryoutfilebuf.cpp ../binaryinfilebuf.cpp ../singleendbarcodeprocessor.cpp ../pattern.cpp ../clusteralgorithm.cpp ../dictatorcenter.cpp ../dictatorcluster.cpp ../kmer_freq.cpp ../cluster.cpp ../clusterpipeline.cpp ../clusteroutput.cpp ../testSimulation.cpp ../csvreader.cpp ../mergebycenters.cpp ../errorrateestimator.cpp ../centerrecalibrator.cpp ../mixturebptester.cpp ../centerclustermapperiterator.cpp ../centerclustermapper.cpp ../proportiontest.cpp ../clustermergertester.cpp ../hypothesistester.cpp ../proportionpooltest.cpp ../clustermergerpooltester.cpp ../clustermergerunpooltester.cpp ../meansequentialestimator.cpp ../clusteringwithtest.cpp ../errorintroducer.cpp ../distanceselector.cpp ../barcodemutationgenerator.cpp ../kmerdecoder.cpp ../qualitytabledumper.cpp ../barcodetabledumper.cpp ../clustertabledumper.cpp
+SIMULATIONSOURCES	= ./simulation_test.cpp ../barcodecounter.cpp ../sequence.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../fastqpattern.cpp ../fastapattern.cpp ../barcodeextractor.cpp ../util.cpp ../singleendbarcodeprocessor.cpp ../pattern.cpp ../clusteralgorithm.cpp ../dictatorcenter.cpp ../dictatorcluster.cpp ../kmer_freq.cpp ../cluster.cpp ../clusterpipeline.cpp ../clusteroutput.cpp ../testSimulation.cpp ../csvreader.cpp ../mergebycenters.cpp ../errorrateestimator.cpp ../centerrecalibrator.cpp ../mixturebptester.cpp ../centerclustermapperiterator.cpp ../centerclustermapper.cpp ../proportiontest.cpp ../clustermergertester.cpp ../hypothesistester.cpp ../proportionpooltest.cpp ../clustermergerpooltester.cpp ../clustermergerunpooltester.cpp ../meansequentialestimator.cpp ../clusteringwithtest.cpp ../errorintroducer.cpp ../distanceselector.cpp ../barcodemutationgenerator.cpp ../kmerdecoder.cpp ../qualitytabledumper.cpp ../barcodetabledumper.cpp ../clustertabledumper.cpp ../clustermergeronesampletester.cpp ../oneproportiontest.cpp ../clusterpruner.cpp ../clustersplitter.cpp ../idgenerator.cpp
 SIMULATIONOBJECTS	= $(SIMULATIONSOURCES:.cpp=.o)
 
 BARCODEANALYSISSOURCES	= ./barcode_analysis.cpp ../barcodecounter.cpp ../sequence.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../fastqpattern.cpp ../fastapattern.cpp ../barcodeextractor.cpp ../util.cpp ../binaryoutfilebuf.cpp ../binaryinfilebuf.cpp ../singleendbarcodeprocessor.cpp ../pattern.cpp ../clusteralgorithm.cpp ../dictatorcenter.cpp ../dictatorcluster.cpp ../kmer_freq.cpp ../cluster.cpp ../clusterpipeline.cpp ../clusteroutput.cpp ../testSimulation.cpp ../csvreader.cpp ../mergebycenters.cpp ../errorrateestimator.cpp ../centerrecalibrator.cpp ../mixturebptester.cpp ../centerclustermapperiterator.cpp ../centerclustermapper.cpp ../proportiontest.cpp ../clustermergertester.cpp ../hypothesistester.cpp ../proportionpooltest.cpp ../clustermergerpooltester.cpp ../clustermergerunpooltester.cpp ../meansequentialestimator.cpp ../clusteringwithtest.cpp ../errorintroducer.cpp ../distanceselector.cpp ../barcodemutationgenerator.cpp ../kmerdecoder.cpp ../barcodeeditor.cpp ../seedselector.cpp ../countbarcodeprocessor.cpp ../rawbarcodeprocessor.cpp ../qualitytabledumper.cpp ../barcodetabledumper.cpp ../clustertabledumper.cpp
@@ -111,11 +114,17 @@ SYSTEMOBJECTS	= $(SYSTEMSOURCES:.cpp=.o)
 COMBINERSOURCES	= ./timepoints_combiner_test.cpp ../barcodecounter.cpp ../sequence.cpp ../kmers_bitwisetransform.cpp ../kmers_dictionary.cpp ../fastqpattern.cpp ../fastapattern.cpp ../barcodeextractor.cpp ../util.cpp ../binaryoutfilebuf.cpp ../binaryinfilebuf.cpp ../singleendbarcodeprocessor.cpp ../pattern.cpp ../clusteralgorithm.cpp ../dictatorcenter.cpp ../dictatorcluster.cpp ../kmer_freq.cpp ../cluster.cpp ../clusterpipeline.cpp ../clusteroutput.cpp ../testSimulation.cpp ../csvreader.cpp ../timepointsmerger.cpp ../multipletimepointsprocessor.cpp ../mixturebptester.cpp ../centerclustermapper.cpp ../centerclustermapperiterator.cpp ../centerhistogramgenerator.cpp ../centerrecalibrator.cpp ../errorrateestimator.cpp ../clusterloader.cpp ../clustercenterlinkgenerator.cpp ../idgenerator.cpp ../mergebycenters.cpp ../proportiontest.cpp ../clustermergertester.cpp ../hypothesistester.cpp ../meansequentialestimator.cpp ../distanceselector.cpp ../clusteringwithtest.cpp ../errorintroducer.cpp ../clustermergerpooltester.cpp ../clustermergerunpooltester.cpp ../proportionpooltest.cpp ../barcodemutationgenerator.cpp
 COMBINEROBJECTS	= $(COMBINERSOURCES:.cpp=.o)
 
-PROPORTIONTESTSOURCES	= ./proportion_test.cpp ../proportiontest.cpp
-PROPORTIONTESTOBJECTS	= $(PROPORTIONTESTSOURCES:.cpp=.o)
+ONEPROPORTIONTESTSOURCES	= ./oneproportiontest_test.cpp ../oneproportiontest.cpp ../hypothesistester.cpp
+ONEPROPORTIONTESTOBJECTS	= $(ONEPROPORTIONTESTSOURCES:.cpp=.o)
+
+#ONEPROPORTIONTESTSOURCES	= ../oneproportiontest.cpp ../hypothesistester.cpp ./oneproportiontest_test.cpp 
+#ONEPROPORTIONTESTOBJECTS	= $(ONEPROPORTIONTESTSOURCES:.cpp=.o)
 
 MERGERTESTERSOURCES	= ./clustermergertester_test.cpp ../proportiontest.cpp ../clustermergertester.cpp
 MERGERTESTEROBJECTS	= $(MERGERTESTERSOURCES:.cpp=.o)
+
+ONESAMPLETESTERSOURCES	= ./onesampleclustermerger_test.cpp ../oneproportiontest.cpp ../clustermergertester.cpp ../clustermergeronesampletester.cpp ../hypothesistester.cpp
+ONESAMPLETESTEROBJECTS	= $(ONESAMPLETESTERSOURCES:.cpp=.o)
 
 MEANSEQUENTIALSOURCES	= ./meansequentialestimator_test.cpp ../meansequentialestimator.cpp
 MEANSEQUENTIALOBJECTS	= $(MEANSEQUENTIALSOURCES:.cpp=.o)
@@ -135,8 +144,12 @@ singlereadsprocessor_test: $(SINGLEREADSPROCESSOROBJECTS)
 
 clustermerger_test: $(MERGERTESTEROBJECTS)
 	$(CC) $(MERGERTESTEROBJECTS) -o $@ $(LDFLAGS)
-proportion_test: $(PROPORTIONTESTOBJECTS)
-	$(CC) $(PROPORTIONTESTOBJECTS) -o $@ $(LDFLAGS)
+
+onesample_test: $(ONESAMPLETESTEROBJECTS)
+	$(CC) $(ONESAMPLETESTEROBJECTS) -o $@ $(LDFLAGS)
+
+proportion_test: $(ONEPROPORTIONTESTOBJECTS)
+	$(CC) $(ONEPROPORTIONTESTOBJECTS) -o $@ $(LDFLAGS)
 
 distance_selector_test: $(DISTANCESELECTOROBJECTS)
 	$(CC) $(DISTANCESELECTOROBJECTS) -o $@ $(LDFLAGS)
@@ -184,6 +197,8 @@ errorrate_estimator_test: $(ERRORESTIMATOROBJECTS)
 	$(CC) $(ERRORESTIMATOROBJECTS) -o $@ $(LDFLAGS) 
 center_calibrator_test: $(CENTERCALIBRATOROBJECTS)
 	$(CC) $(CENTERCALIBRATOROBJECTS) -o $@ $(LDFLAGS) 
+clustersplitter_test: $(CLUSTERSPLITTEROBJECTS)
+	$(CC) $(CLUSTERSPLITTEROBJECTS) -o $@ $(LDFLAGS) 
 load_data_csv_test: $(LOADDATACSVOBJECTS)
 	$(CC) $(LOADDATACSVOBJECTS) -o $@ $(LDFLAGS)
 center_cluster_mapper_test: $(CENTERCLUSTERMAPPEROBJECTS)

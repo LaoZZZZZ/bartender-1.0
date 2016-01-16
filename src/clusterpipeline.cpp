@@ -10,20 +10,18 @@
 #include "clustermergerunpooltester.h"
 #include "clustermergerpooltester.h"
 #include "clustermergeronesampletester.hpp"
-
+#include "clustersplitter.h"
 
 #include <algorithm>
 namespace barcodeSpace {
 
 clusterPipline::clusterPipline(size_t pos,size_t span,size_t klen,
-                               size_t cutoff,
                                double error_rate,
                                double zvalue,
                                TESTSTRATEGY pool,
                                double stopThres):
                                 _span(span),_pos(pos),_mask(0),
                                 _offset(0),_klen(klen),
-                                _cutoff(cutoff),
                                 _error_rate(error_rate),
                                 _zvalue(zvalue), _pool(pool),
 				 _stopThres(stopThres)
@@ -35,7 +33,7 @@ clusterPipline::clusterPipline(size_t pos,size_t span,size_t klen,
 void clusterPipline::init(){
     //
     assert(this->_klen%2 == 0);
-    assert(this->_klen > _pos);
+    //assert(this->_klen >= (_pos + _span));
     size_t total = static_cast<size_t>(pow(2,this->_span));
     this->_cbins.assign(total,CBin());
     _mask = total -1;
@@ -43,13 +41,13 @@ void clusterPipline::init(){
     this->_clusters.clear();
     
     if (_pool == TWOPROPORTIONPOOLED) {
-	std::cout << "Using two sample pooled test" << std::endl;
+        std::cout << "Using two sample pooled test" << std::endl;
         _tester.reset(new ClusterMergerPoolTester(_zvalue));
     } else if (_pool == TWOPROPORTIONUNPOOLED) {
-	std::cout << "Using two sample unpooled test" << std::endl;
+        std::cout << "Using two sample unpooled test" << std::endl;
         _tester.reset(new ClusterMergerUnPoolTester(_zvalue));
     } else  {
-	std::cout << "Using one sample test" << std::endl;
+        std::cout << "Using one sample test" << std::endl;
         assert(_pool == ONEPROPORTION);
         _tester.reset(new ClusterMergerOneSampleTester(_zvalue, _error_rate));
     }
@@ -80,12 +78,10 @@ void clusterPipline::transform(const barcodeFreqTable& barcodes){
     }else{
         throw runtime_error("Does not support the cluster type!\n");
     }
-    this->_splitThreshold = min(5,static_cast<int>(est.GetMean())) + 1;
-    //this->_splitThreshold = 5;
+    this->_splitThreshold = static_cast<int>(est.GetMean()) + 1;
 
     // probably needs to
     DistanceSelector selector(_error_rate, 1, this->_klen);
-    //DistanceSelector selector(0.01, 0.5, this->_klen);
     _dist_threshold = selector.calculateDistance(max_size) + 1;
 }
 
@@ -142,11 +138,14 @@ bool clusterPipline::clusterDrive(const barcodeFreqTable& barcodetable){
     this->transform(barcodetable);
 
     std::cout << "Initial number of unique barcodes(spacers are removed):  " << _clusters.size() <<std::endl;
+    /*
+    std::cout << "The distance threshold is " << _dist_threshold << std::endl;
+    std::cout << "Cluster splitting threshold is  " << _splitThreshold << std::endl;
     std::cout << "The distance threshold is " << _dist_threshold << std::endl;
     std::cout << "The cluster split threshold is  " << _splitThreshold << std::endl;
     std::cout << "The test z-value is " << _zvalue << std::endl;
-    std::cout << "The test choice is " << (_pool == ONEPROPORTION ? "One sample" : (_pool == TWOPROPORTIONPOOLED? "pooled" : "unpooled")) << std::endl;
-
+    std::cout << "The test choice is " << (_pool ? "pooled" : "unpooled") << std::endl;
+    */
     // 2. First try to assign low frequency barcode to high frequency barcode
     // only consider those barcode distance is equal to 1.
     size_t sz(this->_clusters.size());
@@ -184,15 +183,6 @@ bool clusterPipline::clusterDrive(const barcodeFreqTable& barcodetable){
             break;
         sz = tmp;
     }
-    // 3.Remove those clusters whose size is below the cutoff.
-    list<shared_ptr<cluster>> filtered_clusters;
-    for (const auto& c : _clusters) {
-        if (c->size() >= this->_cutoff) {
-            filtered_clusters.push_back(c);
-        }
-    }
-    //_clusters = std::move(filtered_clusters);
-    std::swap(_clusters, filtered_clusters);
 
     std::cout<<"Clustering took  ";
 

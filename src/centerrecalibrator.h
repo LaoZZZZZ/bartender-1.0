@@ -24,6 +24,8 @@ public:
     bool IdentifyCenters(const std::vector<std::array<int, 4>>& cluster_bp_frequency,
                          const std::vector<double>& entropies,
                          std::vector<kmer>* centers);
+    bool IdentifyCenters(const std::vector<std::array<int, 4>>& cluster_bp_frequency,
+                         std::vector<kmer>* centers);
 private:
     std::vector<kmer> IdentifyCentersImp(const std::vector<std::array<int, 4>>& base_freq,
                                          const std::vector<double>& entropies,

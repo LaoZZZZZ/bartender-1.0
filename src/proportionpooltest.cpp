@@ -16,10 +16,9 @@ bool ProportionPoolTest::isSignificant(double e1, double e2, double n1, double n
         return false;
     }
 
-    numerator = e1/n1 - e2/n2;
+    numerator = fabs(e1/n1 - e2/n2);
     common_variance = (e1 + e2)/(n1 + n2);
     denominator = sqrt(common_variance * (1 - common_variance) * (1/n1 + 1/n2));
-    return fabs(numerator / denominator) >= _zvalue;
-    return true;
+    return numerator / denominator >= _zvalue;
 }
 }   // namespace barcodeSpace

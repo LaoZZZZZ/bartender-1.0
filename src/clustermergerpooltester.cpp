@@ -22,17 +22,8 @@ bool ClusterMergerPoolTester::shouldMerge(const std::vector<std::array<int,4>>& 
     if (c1_stat.first < overall_stat.first/2) {
         c1_stat = getErrorAndBase(freq_c2);
     }
-    return !_tester->isSignificant(c1_stat.second, overall_stat.second, c1_stat.first, overall_stat.first);
-}
-std::pair<int, int> ClusterMergerPoolTester::getErrorAndBase(const std::vector<std::array<int,4>>& freq) {
-    int total = 0;
-    int error_bases = 0;
-    for(const auto& pos : freq) {
-        int temp_total = std::accumulate(pos.begin(), pos.end(), 0);
-        error_bases += temp_total - *std::max_element(pos.begin(), pos.end());
-        total += temp_total;
-    }
-    return {total, error_bases};
+    return !_tester->isSignificant(c1_stat.second, overall_stat.second,
+                                   c1_stat.first, overall_stat.first);
 }
 }   // namespace barcodeSpace
 

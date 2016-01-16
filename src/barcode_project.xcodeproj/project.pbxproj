@@ -10,6 +10,10 @@
 		321F57CF1C35C83C003F9EFC /* sequencecounter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 321F57CD1C35C83C003F9EFC /* sequencecounter.cpp */; };
 		321F57D21C371A5A003F9EFC /* singlereadsprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 321F57D01C371A5A003F9EFC /* singlereadsprocessor.cpp */; };
 		321F57D41C37849B003F9EFC /* bartender_extractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 321F57D31C37849B003F9EFC /* bartender_extractor.cpp */; };
+		325EDC201C46B6A8005F7B27 /* clustermergeronesampletester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 325EDC1E1C46B6A8005F7B27 /* clustermergeronesampletester.cpp */; };
+		325EDC231C46B810005F7B27 /* oneproportiontest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 325EDC211C46B810005F7B27 /* oneproportiontest.cpp */; };
+		325EDC281C47082E005F7B27 /* testSimulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 325EDC261C47082E005F7B27 /* testSimulation.cpp */; };
+		325EDC2B1C4AC483005F7B27 /* clusterpruner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 325EDC291C4AC483005F7B27 /* clusterpruner.cpp */; };
 		32738EC21C1F06280073C048 /* barcodecounter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E501C1F06280073C048 /* barcodecounter.cpp */; };
 		32738EC31C1F06280073C048 /* barcodeextractor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E521C1F06280073C048 /* barcodeextractor.cpp */; };
 		32738EC41C1F06280073C048 /* barcodemutationgenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E541C1F06280073C048 /* barcodemutationgenerator.cpp */; };
@@ -42,7 +46,6 @@
 		32738EE21C1F06280073C048 /* kmer_freq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E941C1F06280073C048 /* kmer_freq.cpp */; };
 		32738EE41C1F06280073C048 /* kmers_bitwisetransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E981C1F06280073C048 /* kmers_bitwisetransform.cpp */; };
 		32738EE51C1F06280073C048 /* kmers_dictionary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E9A1C1F06280073C048 /* kmers_dictionary.cpp */; };
-		32738EE61C1F06280073C048 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E9D1C1F06280073C048 /* main.cpp */; };
 		32738EE71C1F06280073C048 /* meansequentialestimator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738E9E1C1F06280073C048 /* meansequentialestimator.cpp */; };
 		32738EE81C1F06280073C048 /* mergebycenters.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738EA01C1F06280073C048 /* mergebycenters.cpp */; };
 		32738EE91C1F06280073C048 /* mixturebptester.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738EA31C1F06280073C048 /* mixturebptester.cpp */; };
@@ -57,9 +60,9 @@
 		32738EF41C1F06280073C048 /* timepointsmerger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738EBC1C1F06280073C048 /* timepointsmerger.cpp */; };
 		32738EF51C1F06280073C048 /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738EC01C1F06280073C048 /* util.cpp */; };
 		32738EFC1C1F6C590073C048 /* rawbarcodeprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738EFA1C1F6C590073C048 /* rawbarcodeprocessor.cpp */; };
-		32738EFF1C22168C0073C048 /* countbarcodeprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738EFD1C22168C0073C048 /* countbarcodeprocessor.cpp */; };
 		32738F051C223F930073C048 /* rawreadsprocessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738F031C223F930073C048 /* rawreadsprocessor.cpp */; };
 		32738F081C234A930073C048 /* barcodeeditor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32738F061C234A930073C048 /* barcodeeditor.cpp */; };
+		329BF88D1C3B6A1C00897F16 /* bartender_single.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 329BF88C1C3B6A1C00897F16 /* bartender_single.cpp */; };
 		32E40D281C1E64300049DAA0 /* seedselector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E40D261C1E64300049DAA0 /* seedselector.cpp */; };
 		32E40D2B1C1E78550049DAA0 /* kmerdecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E40D291C1E78550049DAA0 /* kmerdecoder.cpp */; };
 		32E9D2781C2868B600621FDC /* clustertabledumper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 32E9D2771C2868B600621FDC /* clustertabledumper.cpp */; };
@@ -85,6 +88,14 @@
 		321F57D01C371A5A003F9EFC /* singlereadsprocessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = singlereadsprocessor.cpp; sourceTree = "<group>"; };
 		321F57D11C371A5A003F9EFC /* singlereadsprocessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = singlereadsprocessor.hpp; sourceTree = "<group>"; };
 		321F57D31C37849B003F9EFC /* bartender_extractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bartender_extractor.cpp; sourceTree = "<group>"; };
+		325EDC1E1C46B6A8005F7B27 /* clustermergeronesampletester.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = clustermergeronesampletester.cpp; sourceTree = "<group>"; };
+		325EDC1F1C46B6A8005F7B27 /* clustermergeronesampletester.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = clustermergeronesampletester.hpp; sourceTree = "<group>"; };
+		325EDC211C46B810005F7B27 /* oneproportiontest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oneproportiontest.cpp; sourceTree = "<group>"; };
+		325EDC221C46B810005F7B27 /* oneproportiontest.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = oneproportiontest.hpp; sourceTree = "<group>"; };
+		325EDC261C47082E005F7B27 /* testSimulation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testSimulation.cpp; sourceTree = "<group>"; };
+		325EDC271C47082E005F7B27 /* testSimulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testSimulation.h; sourceTree = "<group>"; };
+		325EDC291C4AC483005F7B27 /* clusterpruner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = clusterpruner.cpp; sourceTree = "<group>"; };
+		325EDC2A1C4AC483005F7B27 /* clusterpruner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = clusterpruner.hpp; sourceTree = "<group>"; };
 		32738E501C1F06280073C048 /* barcodecounter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = barcodecounter.cpp; sourceTree = "<group>"; };
 		32738E511C1F06280073C048 /* barcodecounter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = barcodecounter.h; sourceTree = "<group>"; };
 		32738E521C1F06280073C048 /* barcodeextractor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = barcodeextractor.cpp; sourceTree = "<group>"; };
@@ -154,7 +165,6 @@
 		32738E991C1F06280073C048 /* kmers_bitwisetransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kmers_bitwisetransform.h; sourceTree = "<group>"; };
 		32738E9A1C1F06280073C048 /* kmers_dictionary.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kmers_dictionary.cpp; sourceTree = "<group>"; };
 		32738E9B1C1F06280073C048 /* kmers_dictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kmers_dictionary.h; sourceTree = "<group>"; };
-		32738E9D1C1F06280073C048 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		32738E9E1C1F06280073C048 /* meansequentialestimator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = meansequentialestimator.cpp; sourceTree = "<group>"; };
 		32738E9F1C1F06280073C048 /* meansequentialestimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = meansequentialestimator.h; sourceTree = "<group>"; };
 		32738EA01C1F06280073C048 /* mergebycenters.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = mergebycenters.cpp; sourceTree = "<group>"; };
@@ -190,14 +200,13 @@
 		32738EF61C1F06300073C048 /* assert_helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assert_helpers.h; sourceTree = "<group>"; };
 		32738EFA1C1F6C590073C048 /* rawbarcodeprocessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rawbarcodeprocessor.cpp; sourceTree = "<group>"; };
 		32738EFB1C1F6C590073C048 /* rawbarcodeprocessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rawbarcodeprocessor.hpp; sourceTree = "<group>"; };
-		32738EFD1C22168C0073C048 /* countbarcodeprocessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = countbarcodeprocessor.cpp; sourceTree = "<group>"; };
-		32738EFE1C22168C0073C048 /* countbarcodeprocessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = countbarcodeprocessor.hpp; sourceTree = "<group>"; };
 		32738F011C221E970073C048 /* inputprocessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = inputprocessor.hpp; sourceTree = "<group>"; };
 		32738F031C223F930073C048 /* rawreadsprocessor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = rawreadsprocessor.cpp; sourceTree = "<group>"; };
 		32738F041C223F930073C048 /* rawreadsprocessor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rawreadsprocessor.hpp; sourceTree = "<group>"; };
 		32738F061C234A930073C048 /* barcodeeditor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = barcodeeditor.cpp; sourceTree = "<group>"; };
 		32738F071C234A930073C048 /* barcodeeditor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = barcodeeditor.hpp; sourceTree = "<group>"; };
 		32738F0A1C2486B90073C048 /* rawdatainfo.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = rawdatainfo.hpp; sourceTree = "<group>"; };
+		329BF88C1C3B6A1C00897F16 /* bartender_single.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bartender_single.cpp; sourceTree = "<group>"; };
 		32E40C741C1E578D0049DAA0 /* barcode_project */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = barcode_project; sourceTree = BUILT_PRODUCTS_DIR; };
 		32E40D261C1E64300049DAA0 /* seedselector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seedselector.cpp; sourceTree = "<group>"; };
 		32E40D271C1E64300049DAA0 /* seedselector.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = seedselector.hpp; sourceTree = "<group>"; };
@@ -228,6 +237,15 @@
 		32E40C6B1C1E578D0049DAA0 = {
 			isa = PBXGroup;
 			children = (
+				325EDC291C4AC483005F7B27 /* clusterpruner.cpp */,
+				325EDC2A1C4AC483005F7B27 /* clusterpruner.hpp */,
+				325EDC261C47082E005F7B27 /* testSimulation.cpp */,
+				325EDC271C47082E005F7B27 /* testSimulation.h */,
+				325EDC211C46B810005F7B27 /* oneproportiontest.cpp */,
+				325EDC221C46B810005F7B27 /* oneproportiontest.hpp */,
+				325EDC1E1C46B6A8005F7B27 /* clustermergeronesampletester.cpp */,
+				325EDC1F1C46B6A8005F7B27 /* clustermergeronesampletester.hpp */,
+				329BF88C1C3B6A1C00897F16 /* bartender_single.cpp */,
 				321F57D31C37849B003F9EFC /* bartender_extractor.cpp */,
 				321F57D01C371A5A003F9EFC /* singlereadsprocessor.cpp */,
 				321F57D11C371A5A003F9EFC /* singlereadsprocessor.hpp */,
@@ -247,8 +265,6 @@
 				32738F031C223F930073C048 /* rawreadsprocessor.cpp */,
 				32738F041C223F930073C048 /* rawreadsprocessor.hpp */,
 				32738F011C221E970073C048 /* inputprocessor.hpp */,
-				32738EFD1C22168C0073C048 /* countbarcodeprocessor.cpp */,
-				32738EFE1C22168C0073C048 /* countbarcodeprocessor.hpp */,
 				32738EFA1C1F6C590073C048 /* rawbarcodeprocessor.cpp */,
 				32738EFB1C1F6C590073C048 /* rawbarcodeprocessor.hpp */,
 				32738EF61C1F06300073C048 /* assert_helpers.h */,
@@ -321,7 +337,6 @@
 				32738E991C1F06280073C048 /* kmers_bitwisetransform.h */,
 				32738E9A1C1F06280073C048 /* kmers_dictionary.cpp */,
 				32738E9B1C1F06280073C048 /* kmers_dictionary.h */,
-				32738E9D1C1F06280073C048 /* main.cpp */,
 				32738E9E1C1F06280073C048 /* meansequentialestimator.cpp */,
 				32738E9F1C1F06280073C048 /* meansequentialestimator.h */,
 				32738EA01C1F06280073C048 /* mergebycenters.cpp */,
@@ -435,7 +450,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				325EDC2B1C4AC483005F7B27 /* clusterpruner.cpp in Sources */,
 				32738EC71C1F06280073C048 /* centerclustermapper.cpp in Sources */,
+				329BF88D1C3B6A1C00897F16 /* bartender_single.cpp in Sources */,
 				32738F081C234A930073C048 /* barcodeeditor.cpp in Sources */,
 				32738EF41C1F06280073C048 /* timepointsmerger.cpp in Sources */,
 				32738EE91C1F06280073C048 /* mixturebptester.cpp in Sources */,
@@ -462,7 +479,7 @@
 				32738ED31C1F06280073C048 /* clustermergerunpooltester.cpp in Sources */,
 				32738EDD1C1F06280073C048 /* errorrateestimator.cpp in Sources */,
 				32738EE21C1F06280073C048 /* kmer_freq.cpp in Sources */,
-				32738EFF1C22168C0073C048 /* countbarcodeprocessor.cpp in Sources */,
+				325EDC281C47082E005F7B27 /* testSimulation.cpp in Sources */,
 				32738EDB1C1F06280073C048 /* distanceselector.cpp in Sources */,
 				32738EC41C1F06280073C048 /* barcodemutationgenerator.cpp in Sources */,
 				32738EF51C1F06280073C048 /* util.cpp in Sources */,
@@ -472,9 +489,9 @@
 				32738F051C223F930073C048 /* rawreadsprocessor.cpp in Sources */,
 				32738EC91C1F06280073C048 /* centerhistogramgenerator.cpp in Sources */,
 				32738EF11C1F06280073C048 /* singletimepointdata.cpp in Sources */,
-				32738EE61C1F06280073C048 /* main.cpp in Sources */,
 				32738EF01C1F06280073C048 /* singleendbarcodeprocessor.cpp in Sources */,
 				32738ED01C1F06280073C048 /* clusterloader.cpp in Sources */,
+				325EDC231C46B810005F7B27 /* oneproportiontest.cpp in Sources */,
 				32E9D27E1C287DB400621FDC /* barcodetabledumper.cpp in Sources */,
 				32738ED51C1F06280073C048 /* clusterpipeline.cpp in Sources */,
 				32738EDE1C1F06280073C048 /* fastapattern.cpp in Sources */,
@@ -493,6 +510,7 @@
 				32738EE51C1F06280073C048 /* kmers_dictionary.cpp in Sources */,
 				32738ED11C1F06280073C048 /* clustermergerpooltester.cpp in Sources */,
 				32738EED1C1F06280073C048 /* proportiontest.cpp in Sources */,
+				325EDC201C46B6A8005F7B27 /* clustermergeronesampletester.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
