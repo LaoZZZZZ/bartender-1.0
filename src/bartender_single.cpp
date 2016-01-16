@@ -47,7 +47,7 @@ void drive(std::string barcodefile,  // original read file
            TESTSTRATEGY pool = TWOPROPORTIONUNPOOLED,
            double entropy_threshold_for_error = 0.28, // the majority bp accounts at least 95%.
            // The least size of cluster that will be considered as candidate when estimating the sequencing error
-           size_t cluster_size_threshold_for_error = 20,
+           size_t cluster_size_threshold_for_error = 50,
            // The total number of base pair for estimating sequencing error.
            size_t number_barcode_for_error_estimator = 100000,
            bool head = false){
