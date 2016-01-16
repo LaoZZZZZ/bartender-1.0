@@ -44,8 +44,8 @@ void drive(std::string barcodefile,  // original read file
            double p_value,  // p_value used to check whether the mixture frequency is high enough to be a center
            size_t maximum_centers, // The maximum centers for each cluster
            double zvalue = 10.0,
-           bool pool = false,
-           double entropy_threshold_for_error = 0.33, // the majority bp accounts at least 95%.
+           TESTSTRATEGY pool = TWOPROPORTIONUNPOOLED,
+           double entropy_threshold_for_error = 0.28, // the majority bp accounts at least 95%.
            // The least size of cluster that will be considered as candidate when estimating the sequencing error
            size_t cluster_size_threshold_for_error = 20,
            // The total number of base pair for estimating sequencing error.
@@ -119,8 +119,8 @@ void drive(std::string barcodefile,  // original read file
         size_t klen = blen*2;
         if(seedlen*2 > klen)
             seedlen = 1;
-        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen,
-                                                  freq_cutoff,zvalue, pool);
+        clusterPipline* pipe = new clusterPipline(start,seedlen*2,klen, freq_cutoff,
+                                                  error_rate, zvalue, pool);
         std::shared_ptr<clusterPipline> pPipe(pipe);
         pPipe->clusterDrive(barcode_tables[blen]);
 
@@ -149,6 +149,7 @@ void drive(std::string barcodefile,  // original read file
 
 
 }
+
 int main(int argc,char* argv[])
 {
     Timer* t = new realTimer(cout);
@@ -184,13 +185,13 @@ int main(int argc,char* argv[])
     if (argc >= 9) {
         maximum_centers = atoi(argv[8]);
     }
-    double zvalue = 10.0;
+    double zvalue = 4;
     if (argc >= 10) {
         zvalue = atof(argv[9]);
     }
-    bool pool = false;
+    TESTSTRATEGY pool = TWOPROPORTIONUNPOOLED;
     if (argc >= 11) {
-        pool = atoi(argv[10]);
+        pool = static_cast<TESTSTRATEGY>(atoi(argv[10]));
     }
     drive(sequencefile,
           freq_cutoff,

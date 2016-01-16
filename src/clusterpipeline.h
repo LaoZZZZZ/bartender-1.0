@@ -9,6 +9,8 @@
 #include "timer.h"
 #include "typdefine.h"
 #include "formats.h"
+#include "clustermergertester.h"
+
 namespace barcodeSpace{
 class clusterPipline
 {
@@ -23,8 +25,8 @@ public:
       * cutoff: frequency that differential "true" barcode and barcode with "error".
       * stopThres: This threshold
     */
-    clusterPipline(size_t pos,size_t span,size_t klen,size_t cutoff = 1,
-                   double zvalue = 3.08, bool pool = true, double stopThres = 0.01);
+    clusterPipline(size_t pos,size_t span,size_t klen,size_t cutoff = 10,
+                   double error_rate = 0.01, double zvalue = 3.08, TESTSTRATEGY test_method = TWOPROPORTIONUNPOOLED, double stopThres = 0.01);
     bool clusterDrive(const barcodeFreqTable&);
     bool clusterDrive(const std::list<std::shared_ptr<cluster>>&);
     const std::list<std::shared_ptr<cluster>>& clusters(){return this->_clusters;}
@@ -56,7 +58,7 @@ private:
       * Second round clustering on top of the result from the first round clustering
       *
     */
-    void crossBinClustering(size_t);
+    void crossBinClustering();
 private:
     void init();
 private:
@@ -67,6 +69,7 @@ private:
      size_t                                          _mask;   // mask used to extract the
      size_t                                          _offset;  // number of bits needs to be
      size_t                                          _klen;  // number of bits that represents the barcodes, start from the low end
+    double                                          _error_rate;
      //////////////params for clusting the bins and barcodes clusters////////////////////////
      size_t                                          _cutoff;
      std::list<std::shared_ptr<cluster>>             _clusters;
@@ -74,7 +77,8 @@ private:
 
      size_t                                          _dist_threshold; // used to define whether two barcodes are similar.
      double                                          _zvalue; //used for merge test
-     bool                                            _pool; // indicate whether use the pooled test or indepedent test.
+     TESTSTRATEGY                                    _pool; // indicate whether use the pooled test or indepedent test.
+    std::shared_ptr<ClusterMergerTester>             _tester;
      // the cluster size difference between current clustring step with the previous step
      // if the difference/previous cluster size smaller than this threshold
      // the clustering algorithm stop

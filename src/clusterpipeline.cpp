@@ -6,18 +6,25 @@
 #include "clusteringwithtest.h"
 #include "errorintroducer.h"
 #include "distanceselector.h"
+#include "formats.h"
+#include "clustermergerunpooltester.h"
+#include "clustermergerpooltester.h"
+#include "clustermergeronesampletester.hpp"
+
 
 #include <algorithm>
 namespace barcodeSpace {
 
 clusterPipline::clusterPipline(size_t pos,size_t span,size_t klen,
                                size_t cutoff,
+                               double error_rate,
                                double zvalue,
-                               bool pool,
+                               TESTSTRATEGY pool,
                                double stopThres):
                                 _span(span),_pos(pos),_mask(0),
                                 _offset(0),_klen(klen),
                                 _cutoff(cutoff),
+                                _error_rate(error_rate),
                                 _zvalue(zvalue), _pool(pool),
 				 _stopThres(stopThres)
 {
@@ -34,6 +41,18 @@ void clusterPipline::init(){
     _mask = total -1;
     this->_offset = this->_klen - _pos - _span;
     this->_clusters.clear();
+    
+    if (_pool == TWOPROPORTIONPOOLED) {
+	std::cout << "Using two sample pooled test" << std::endl;
+        _tester.reset(new ClusterMergerPoolTester(_zvalue));
+    } else if (_pool == TWOPROPORTIONUNPOOLED) {
+	std::cout << "Using two sample unpooled test" << std::endl;
+        _tester.reset(new ClusterMergerUnPoolTester(_zvalue));
+    } else  {
+	std::cout << "Using one sample test" << std::endl;
+        assert(_pool == ONEPROPORTION);
+        _tester.reset(new ClusterMergerOneSampleTester(_zvalue, _error_rate));
+    }
 }
 /**
   * Given a list of raw barcodes, split them into
@@ -61,10 +80,12 @@ void clusterPipline::transform(const barcodeFreqTable& barcodes){
     }else{
         throw runtime_error("Does not support the cluster type!\n");
     }
-    this->_splitThreshold = min(5,static_cast<int>(est.GetMean()));
+    this->_splitThreshold = min(5,static_cast<int>(est.GetMean())) + 1;
+    //this->_splitThreshold = 5;
 
     // probably needs to
-    DistanceSelector selector(0.01, 0.5, this->_klen);
+    DistanceSelector selector(_error_rate, 1, this->_klen);
+    //DistanceSelector selector(0.01, 0.5, this->_klen);
     _dist_threshold = selector.calculateDistance(max_size) + 1;
 }
 
@@ -86,10 +107,12 @@ bool clusterPipline::shatter(const list<std::shared_ptr<cluster>>& clusters){
     return true;
 }
 
-void clusterPipline::crossBinClustering(size_t split_thres){
+void clusterPipline::crossBinClustering(){
     if(this->_clusters.size()){
         this->_clusters.clear();
-        clusterAlgorithm* temp = new ClusteringWithTest(split_thres, /*this->_splitThreshold,*/this->_klen/2, _dist_threshold, _zvalue, _pool);
+        
+        clusterAlgorithm* temp = new ClusteringWithTest(this->_splitThreshold,this->_klen/2, _dist_threshold, _tester);
+        
         std::shared_ptr<clusterAlgorithm> ptemp(temp);
         for(auto iter = this->_cbins.begin(); iter != this->_cbins.end(); iter++){
             if(iter->size()){
@@ -119,14 +142,11 @@ bool clusterPipline::clusterDrive(const barcodeFreqTable& barcodetable){
     this->transform(barcodetable);
 
     std::cout << "Initial number of unique barcodes(spacers are removed):  " << _clusters.size() <<std::endl;
-    /*
-    std::cout << "The distance threshold is " << _dist_threshold << std::endl;
-    std::cout << "Cluster splitting threshold is  " << _splitThreshold << std::endl;
     std::cout << "The distance threshold is " << _dist_threshold << std::endl;
     std::cout << "The cluster split threshold is  " << _splitThreshold << std::endl;
     std::cout << "The test z-value is " << _zvalue << std::endl;
-    std::cout << "The test choice is " << (_pool ? "pooled" : "unpooled") << std::endl;
-    */
+    std::cout << "The test choice is " << (_pool == ONEPROPORTION ? "One sample" : (_pool == TWOPROPORTIONPOOLED? "pooled" : "unpooled")) << std::endl;
+
     // 2. First try to assign low frequency barcode to high frequency barcode
     // only consider those barcode distance is equal to 1.
     size_t sz(this->_clusters.size());
@@ -158,8 +178,7 @@ bool clusterPipline::clusterDrive(const barcodeFreqTable& barcodetable){
 
         total++;
         cout<<"Clustering iteration "<<total<<endl;
-        //this->crossBinClustering(1);
-        this->crossBinClustering(_splitThreshold);
+        this->crossBinClustering();
         size_t tmp(this->_clusters.size());
         if(static_cast<double>(sz - tmp)/sz < this->_stopThres)
             break;
@@ -196,7 +215,7 @@ bool clusterPipline::clusterDrive(const list<std::shared_ptr<cluster>>& clusters
         if(sz == 0)
             break;
         if(this->shatter(this->_clusters)){
-            this->crossBinClustering(_splitThreshold);
+            this->crossBinClustering();
             size_t tmp(this->_clusters.size());
             if(static_cast<double>(sz - tmp)/sz < this->_stopThres)
                 break;

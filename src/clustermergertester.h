@@ -14,6 +14,8 @@ public:
                              const std::vector<std::array<int,4>>& freq_c2) = 0;
     virtual ~ClusterMergerTester() {}
 protected:
+    
+    std::pair<int, int> getErrorAndBase(const std::vector<std::array<int,4>>& freq_c1);
     std::vector<std::array<int, 4>> PoolFrequencyTable(const std::vector<std::array<int,4>>& freq_c1,
                                                        const std::vector<std::array<int,4>>& freq_c2);
 };

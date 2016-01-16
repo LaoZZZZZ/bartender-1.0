@@ -5,6 +5,7 @@
 #include "clusteralgorithm.h"
 #include "clustermergerpooltester.h"
 #include "clustermergerunpooltester.h"
+#include "clustermergeronesampletester.hpp"
 
 #include <list>
 #include <memory>
@@ -13,14 +14,10 @@ using namespace std;
 namespace barcodeSpace {
 ClusteringWithTest::ClusteringWithTest(size_t cutoff,size_t klen,
                                        size_t dist_thres,
-                                       double zvalue,
-                                       bool pool) : clusterAlgorithm(cutoff, klen, dist_thres)
+                                       std::shared_ptr<ClusterMergerTester> tester)
+    : clusterAlgorithm(cutoff, klen, dist_thres), _tester(tester)
 {
-    if (pool) {
-        _tester.reset(new ClusterMergerPoolTester(zvalue));
-    } else {
-        _tester.reset(new ClusterMergerUnPoolTester(zvalue));
-    }
+
 }
 
 void ClusteringWithTest::split(const list<std::shared_ptr<cluster>>& cls){
@@ -33,7 +30,7 @@ void ClusteringWithTest::split(const list<std::shared_ptr<cluster>>& cls){
         }
     }
     this->_antenna.sort([](const std::shared_ptr<cluster>& c1,
-                        const std::shared_ptr<cluster>& c2) {return c1->size() > c2->size();});
+                        const std::shared_ptr<cluster>& c2) {return c1->size() < c2->size();});
 
 }
 /**
@@ -51,7 +48,7 @@ void ClusteringWithTest::cleanSplit(const list<std::shared_ptr<cluster>>& cls){
         }
     }
     this->_antenna.sort([](const std::shared_ptr<cluster>& c1,
-                        const std::shared_ptr<cluster>& c2) {return c1->size() > c2->size();});
+                        const std::shared_ptr<cluster>& c2) {return c1->size() < c2->size();});
     auto iter = _antenna.begin();
     while (iter != _antenna.end()){
         bool found = false;
@@ -72,8 +69,8 @@ void ClusteringWithTest::cleanSplit(const list<std::shared_ptr<cluster>>& cls){
 
 void ClusteringWithTest::clusterImp(const std::list<std::shared_ptr<cluster>>& cs){
     this->reset();
-    //this->split(cs);
-    this->cleanSplit(cs);
+    this->split(cs);
+    //this->cleanSplit(cs);
     // Put all large clusters into _clusters
     // for comparison.
 

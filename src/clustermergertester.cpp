@@ -1,8 +1,11 @@
 #include "clustermergertester.h"
 
 #include <array>
+#include <algorithm>
+#include <numeric>
 #include <cassert>
 #include <vector>
+
 namespace barcodeSpace {
 
 ClusterMergerTester::ClusterMergerTester(){}
@@ -20,5 +23,14 @@ std::vector<std::array<int, 4>> ClusterMergerTester::PoolFrequencyTable(
     }
     return pooled_table;
 }
-
+std::pair<int, int> ClusterMergerTester::getErrorAndBase(const std::vector<std::array<int,4>>& freq) {
+    int total = 0;
+    int error_bases = 0;
+    for(const auto& pos : freq) {
+        int temp_total = std::accumulate(pos.begin(), pos.end(), 0);
+        error_bases += temp_total - *std::max_element(pos.begin(), pos.end());
+        total += temp_total;
+    }
+    return {total, error_bases};
+}
 }
